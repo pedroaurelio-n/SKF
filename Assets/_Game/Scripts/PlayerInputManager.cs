@@ -16,8 +16,6 @@ public class PlayerInputManager : MonoBehaviour
         _characterController = GetComponentInParent<PlayerCharacterController>();
         _input = GetComponent<PlayerInput>();
         
-        Cursor.lockState = CursorLockMode.Locked;
-        
         _controls = new PlayerControls();
         _controls.Enable();
     }

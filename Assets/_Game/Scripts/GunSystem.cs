@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GunSystem : MonoBehaviour
 {
-    [SerializeField] private Transform player; // Referência ao jogador
-    [SerializeField] private float distanceMin = 0.3f; // Distância mínima da arma ao jogador
-    [SerializeField] private float distanceMax = 1f; // Distância máxima da arma ao jogador
-    [SerializeField] private float smoothMove = 10f; // Controla a suavidade da transição
+    [SerializeField] private Transform player; // Referï¿½ncia ao jogador
+    [SerializeField] private float distanceMin = 0.3f; // Distï¿½ncia mï¿½nima da arma ao jogador
+    [SerializeField] private float distanceMax = 1f; // Distï¿½ncia mï¿½xima da arma ao jogador
+    [SerializeField] private float smoothMove = 10f; // Controla a suavidade da transiï¿½ï¿½o
     [SerializeField] private SpriteRenderer srGun; // Sprite da arma
     [SerializeField] private Transform firePoint; // Ponto de disparo
 
@@ -15,7 +13,7 @@ public class GunSystem : MonoBehaviour
     private Vector2 dirArma;
     private float angle;
 
-    [SerializeField] private float limiteInferiorFisico = -0.2f; // Posição mínima da arma relativa ao player
+    [SerializeField] private float limiteInferiorFisico = -0.2f; // Posiï¿½ï¿½o mï¿½nima da arma relativa ao player
 
     void Update()
     {
@@ -24,10 +22,10 @@ public class GunSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Calcula direção da arma em relação ao player
+        // Calcula direï¿½ï¿½o da arma em relaï¿½ï¿½o ao player
         dirArma = (mousePosi - (Vector2)player.position).normalized;
 
-        // Calcula a posição alvo da arma respeitando os limites de distância
+        // Calcula a posiï¿½ï¿½o alvo da arma respeitando os limites de distï¿½ncia
         float distanciaAtual = Mathf.Clamp(Vector2.Distance(player.position, mousePosi), distanceMin, distanceMax);
         Vector2 targetPosition = (Vector2)player.position + dirArma * distanciaAtual;
 
@@ -37,10 +35,10 @@ public class GunSystem : MonoBehaviour
             targetPosition.y = player.position.y + limiteInferiorFisico;
         }
 
-        // Move a arma suavemente para a posição desejada
+        // Move a arma suavemente para a posiï¿½ï¿½o desejada
         transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * smoothMove);
 
-        // Calcula o ângulo da arma
+        // Calcula o ï¿½ngulo da arma
         angle = Mathf.Atan2(dirArma.y, dirArma.x) * Mathf.Rad2Deg;
 
         // Rotaciona a arma de forma mais precisa e suave
@@ -48,9 +46,8 @@ public class GunSystem : MonoBehaviour
 
         // Ajusta espelhamento corretamente
         bool mirandoParaEsquerda = mousePosi.x < player.position.x;
-        srGun.flipY = mirandoParaEsquerda;
-
-        // Ajusta a rotação do firePoint para que fique sempre apontando para frente
-        firePoint.right = mirandoParaEsquerda ? Vector2.left : Vector2.right;
+        Vector3 scale = transform.localScale;
+        scale.y = mirandoParaEsquerda ? -1 : 1;
+        transform.localScale = scale;
     }
 }

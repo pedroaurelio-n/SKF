@@ -1,27 +1,25 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class GunShooting : MonoBehaviour
 {
     [SerializeField] private Transform firePoint; // Ponto de origem do tiro
-    [SerializeField] private GameObject shotPrefab; // Prefab do tiro
+    [SerializeField] private Bullet shotPrefab; // Prefab do tiro
     [SerializeField] private float timeShot = 0.2f; // Tempo entre disparos
 
     private bool podeAtirar = true;
-    private Transform player; // Referência ao jogador
+    private Transform player; // Referï¿½ncia ao jogador
 
     void Start()
     {
-        // Obtém a referência do jogador (supondo que o script esteja na arma)
+        // Obtï¿½m a referï¿½ncia do jogador (supondo que o script esteja na arma)
         player = transform.root; // Pegando o objeto raiz (personagem)
     }
 
     void Update()
     {
-        // Ajusta a rotação do firePoint para sempre apontar para frente
-        firePoint.right = player.localScale.x > 0 ? Vector2.right : Vector2.left;
-
-        if (Input.GetMouseButton(0) && podeAtirar) // Botão esquerdo do mouse
+        if (Input.GetMouseButton(0) && podeAtirar) // Botï¿½o esquerdo do mouse
         {
             StartCoroutine(Atirar());
         }
@@ -31,8 +29,9 @@ public class GunShooting : MonoBehaviour
     {
         podeAtirar = false;
 
-        // Instancia o tiro na posição e rotação do firePoint
-        Instantiate(shotPrefab, firePoint.position, firePoint.rotation);
+        // Instancia o tiro na posiï¿½ï¿½o e rotaï¿½ï¿½o do firePoint
+        Bullet bullet = Instantiate(shotPrefab, firePoint.position, Quaternion.identity, null);
+        bullet.Setup(firePoint.right);
 
         yield return new WaitForSeconds(timeShot);
 
