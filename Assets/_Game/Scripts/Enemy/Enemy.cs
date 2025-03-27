@@ -15,6 +15,6 @@ public class Enemy : MonoBehaviour
     public void Die ()
     {
         OnDeath?.Invoke();
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

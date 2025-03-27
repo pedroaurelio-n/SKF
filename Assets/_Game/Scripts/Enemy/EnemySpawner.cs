@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             if (_enemy.gameObject.activeInHierarchy)
-                yield return null;
+                yield return _waitForReset;
             
             _enemy.gameObject.SetActive(true);
             _enemy.Reset();
