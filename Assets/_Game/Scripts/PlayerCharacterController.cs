@@ -11,7 +11,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 {
     [field: SerializeField] public KinematicCharacterMotor Motor { get; private set; }
     [field: SerializeField] public bool CanJump { get; private set; }
-    
+
     [Header("Stable Movement")]
     [SerializeField] float maxStableMoveSpeed = 8f;
     [SerializeField] float stableMovementSharpness = 15f;
@@ -29,6 +29,9 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     [SerializeField] float jumpHeight = 2f;
     [SerializeField] float jumpPreGroundingGraceTime = 0.2f;
     [SerializeField] float jumpPostGroundingGraceTime = 0.2f;
+
+    [Header("Wall Sliding")]
+    [SerializeField] float maxWallSlideSpeed = -2f; // Velocidade máxima de descida ao deslizar na parede
 
     [Header("Misc")]
     [SerializeField] Vector3 defaultGravity = new(0, -30f, 0);
@@ -53,21 +56,22 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     bool _canCoyoteJump;
     bool _coyoteJumped;
 
-    void Start ()
+    // Flag para indicar se o personagem está deslizando na parede
+    bool _isWallSliding = false;
+
+    void Start()
     {
         Motor.CharacterController = this;
-
         _gravity = defaultGravity;
         _jumpForce = Mathf.Sqrt(-2f * jumpHeight * _gravity.y);
     }
 
-    public void SetInputs (ref PlayerCharacterInputs inputs)
+    public void SetInputs(ref PlayerCharacterInputs inputs)
     {
         _rawInputVector = new Vector2(inputs.MoveRightAxis, 0f);
 
-        // Clamp raw input for movement
+        // Clamp no input para movimento
         Vector3 moveInputVector = Vector2.ClampMagnitude(new Vector3(_rawInputVector.x, _rawInputVector.y), 1f);
-
         _moveInputVector = moveInputVector;
 
         if (inputs.JumpPressed)
@@ -76,73 +80,59 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
             _jumpRequested = true;
         }
     }
-    
-    public void BeforeCharacterUpdate (float deltaTime)
+
+    public void BeforeCharacterUpdate(float deltaTime)
     {
         _gravity = defaultGravity;
-
-        // Check if coyote time jump is possible
+        _isWallSliding = false; // Reseta o wall sliding a cada frame
         _canCoyoteJump = _timeSinceLastAbleToJump <= jumpPostGroundingGraceTime;
     }
 
-    public void UpdateRotation (ref Quaternion currentRotation, float deltaTime)
+    public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
+        // Aqui você pode implementar a rotação baseada na direção de movimento, se necessário.
     }
 
-    public void UpdateVelocity (ref Vector3 currentVelocity, float deltaTime)
+    public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         Vector3 targetMovementVelocity;
-        
-        // Ground movement logic
+
+        // Movimento no chão
         if (Motor.GroundingStatus.IsStableOnGround)
         {
-            // Adjust velocity to match the ground slope (this is because we don't want our smoothing to cause any velocity losses in slope changes)
-            currentVelocity = Motor.GetDirectionTangentToSurface(currentVelocity, Motor.GroundingStatus.GroundNormal) *
-                              currentVelocity.magnitude;
+            currentVelocity = Motor.GetDirectionTangentToSurface(currentVelocity, Motor.GroundingStatus.GroundNormal) * currentVelocity.magnitude;
 
-            // Calculate target velocity based on input
             Vector3 inputRight = Vector3.Cross(_moveInputVector, Motor.CharacterUp);
-            Vector3 reorientedInput = Vector3.Cross(Motor.GroundingStatus.GroundNormal, inputRight).normalized *
-                                      _moveInputVector.magnitude;
-            
+            Vector3 reorientedInput = Vector3.Cross(Motor.GroundingStatus.GroundNormal, inputRight).normalized * _moveInputVector.magnitude;
+
             targetMovementVelocity = reorientedInput * maxStableMoveSpeed;
 
-            // Smoothly interpolate the current velocity toward the target velocity
             currentVelocity = Vector3.Lerp(
                 currentVelocity,
                 targetMovementVelocity,
                 1 - Mathf.Exp(-stableMovementSharpness * deltaTime)
             );
         }
-        // Air movement logic
+        // Movimento no ar
         else
         {
-            // Assign velocity based on air input
             if (_moveInputVector.sqrMagnitude > 0f)
             {
                 targetMovementVelocity = _moveInputVector * maxAirMoveSpeed;
 
-                // Prevent climbing on steep slopes with air movement
                 if (Motor.GroundingStatus.FoundAnyGround)
                 {
-                    Vector3 perpendicularObstructionNormal = Vector3
-                        .Cross(Vector3.Cross(Motor.CharacterUp, Motor.GroundingStatus.GroundNormal), Motor.CharacterUp)
-                        .normalized;
-                    
-                    targetMovementVelocity =
-                        Vector3.ProjectOnPlane(targetMovementVelocity, perpendicularObstructionNormal);
+                    Vector3 perpendicularObstructionNormal = Vector3.Cross(Vector3.Cross(Motor.CharacterUp, Motor.GroundingStatus.GroundNormal), Motor.CharacterUp).normalized;
+                    targetMovementVelocity = Vector3.ProjectOnPlane(targetMovementVelocity, perpendicularObstructionNormal);
                 }
 
                 Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, _gravity);
                 currentVelocity += airAccelerationSpeed * deltaTime * velocityDiff;
             }
-            // Assign velocity based on air deceleration
             else
             {
                 Vector3 inputRight = Vector3.Cross(_moveInputVector, Motor.CharacterUp);
-                Vector3 reorientedInput = Vector3.Cross(Motor.CharacterUp, inputRight).normalized *
-                                          _moveInputVector.magnitude;
-
+                Vector3 reorientedInput = Vector3.Cross(Motor.CharacterUp, inputRight).normalized * _moveInputVector.magnitude;
                 targetMovementVelocity = reorientedInput * maxAirMoveSpeed;
                 targetMovementVelocity.y = currentVelocity.y;
 
@@ -153,36 +143,35 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
                 );
             }
 
-            // Apply gravity and drag
+            // Aplica gravidade e drag
             currentVelocity += _gravity * deltaTime;
             currentVelocity *= 1f / (1f + drag * deltaTime);
+
+            // Se estiver deslizando na parede, limita a velocidade de descida
+            if (_isWallSliding && currentVelocity.y < maxWallSlideSpeed)
+            {
+                currentVelocity.y = maxWallSlideSpeed;
+            }
         }
 
-        // Handle jumping
+        // Tratamento do pulo
         _jumpedThisFrame = false;
         _timeSinceJumpRequested += deltaTime;
         if (_jumpRequested && CanJump)
         {
-            bool evaluateGroundStatus = allowJumpingWhenSliding
-                ? Motor.GroundingStatus.FoundAnyGround
-                : Motor.GroundingStatus.IsStableOnGround;
+            bool evaluateGroundStatus = allowJumpingWhenSliding ? Motor.GroundingStatus.FoundAnyGround : Motor.GroundingStatus.IsStableOnGround;
 
-            // Handle first jump & wall jump
             if (_currentJumpCount == 0 && (evaluateGroundStatus || _canCoyoteJump))
             {
                 if (_canCoyoteJump && !evaluateGroundStatus)
                     _coyoteJumped = true;
 
-                // Calculate jump direction before un-grounding
                 Vector3 jumpDirection = Motor.CharacterUp;
                 if (Motor.GroundingStatus is { FoundAnyGround: true, IsStableOnGround: false })
                     jumpDirection = Motor.GroundingStatus.GroundNormal;
-                
-                // Makes the character skip ground probing/snapping on its next update.
-                // If this line weren't here, the character would remain snapped to the ground when trying to jump
+
                 Motor.ForceUnground();
 
-                // Add to the return velocity and reset jump state
                 currentVelocity += jumpDirection * _jumpForce - Vector3.Project(currentVelocity, Motor.CharacterUp);
                 _jumpRequested = false;
                 _currentJumpCount++;
@@ -194,7 +183,6 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
             {
                 Motor.ForceUnground();
 
-                // Add to the return velocity and reset jump state
                 currentVelocity += Motor.CharacterUp * _jumpForce - Vector3.Project(currentVelocity, Motor.CharacterUp);
                 _jumpRequested = false;
                 _currentJumpCount++;
@@ -202,7 +190,6 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
             }
         }
 
-        // Apply additive velocity if necessary
         if (_internalVelocityAdd.sqrMagnitude > 0f)
         {
             currentVelocity += _internalVelocityAdd;
@@ -211,59 +198,63 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 
         _velocity = Motor.Velocity;
     }
-    
-    public void AfterCharacterUpdate (float deltaTime)
+
+    public void AfterCharacterUpdate(float deltaTime)
     {
-        // Handle jump-related values
         if (_coyoteJumped && _currentJumpCount > 0)
             _coyoteJumped = false;
 
         if (!_canCoyoteJump && _currentJumpCount == 0)
             _currentJumpCount++;
 
-        // Handle jumping pre-ground grace period
         if (_jumpRequested && _timeSinceJumpRequested > jumpPreGroundingGraceTime)
             _jumpRequested = false;
 
-        // Handle jumping while sliding
         if (allowJumpingWhenSliding ? Motor.GroundingStatus.FoundAnyGround : Motor.GroundingStatus.IsStableOnGround)
         {
-            // If we're on a ground surface, reset jumping values
             if (!_jumpedThisFrame)
                 _currentJumpCount = 0;
 
             _timeSinceLastAbleToJump = 0f;
         }
         else
-            // Keep track of time since we were last able to jump (for grace period)
             _timeSinceLastAbleToJump += deltaTime;
     }
-    
-    
-    public bool IsColliderValidForCollisions (Collider coll)
+
+
+    public bool IsColliderValidForCollisions(Collider coll)
     {
         return true;
     }
-    
-    public void OnGroundHit (
+
+    // Método chamado quando ocorre uma colisão durante o movimento
+    public void OnMovementHit(
         Collider hitCollider,
         Vector3 hitNormal,
         Vector3 hitPoint,
         ref HitStabilityReport hitStabilityReport
     )
     {
+        // Se não está no chão e o normal tem componente horizontal suficiente, ativa o wall slide.
+        // Ajustamos o limiar para 0.3 para detectar paredes mesmo com ângulos menos extremos.
+        if (!Motor.GroundingStatus.IsStableOnGround && Mathf.Abs(hitNormal.x) > 0.3f)
+        {
+            _isWallSliding = true;
+            Debug.Log("Wall Slide ativado: hitNormal = " + hitNormal);
+        }
     }
 
-    public void OnMovementHit (
+    public void OnGroundHit(
         Collider hitCollider,
         Vector3 hitNormal,
         Vector3 hitPoint,
         ref HitStabilityReport hitStabilityReport
     )
     {
+        // Pode ser utilizado para outras lógicas ao tocar o chão.
     }
-    
-    public void ProcessHitStabilityReport (
+
+    public void ProcessHitStabilityReport(
         Collider hitCollider,
         Vector3 hitNormal,
         Vector3 hitPoint,
@@ -274,7 +265,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     {
     }
 
-    public void PostGroundingUpdate (float deltaTime)
+    public void PostGroundingUpdate(float deltaTime)
     {
         if (Motor.GroundingStatus.IsStableOnGround && !Motor.LastGroundingStatus.IsStableOnGround)
             HandleLanded();
@@ -282,20 +273,22 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
             HandleLeftStableGround();
     }
 
-    public void OnDiscreteCollisionDetected (Collider hitCollider)
+    public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
     }
 
-    public void AddVelocity (Vector3 velocity)
+    public void AddVelocity(Vector3 velocity)
     {
         _internalVelocityAdd += velocity;
     }
 
-    void HandleLanded ()
+    void HandleLanded()
     {
+        // Lógica ao aterrissar, se necessário.
     }
 
-    void HandleLeftStableGround ()
+    void HandleLeftStableGround()
     {
+        // Lógica ao deixar o solo, se necessário.
     }
 }
