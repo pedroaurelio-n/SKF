@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d74f071d89b084dacdb7b0686533c9, type: 3}
+  m_Name: Wave3
+  m_EditorClassIdentifier: 
+  EnemyGroups:
+  - EnemyPrefab: {fileID: 5401207376021426880, guid: 4a5498c2c1fb8af4db8777a6716cfa98, type: 3}
+    TotalCount: 5
+  - EnemyPrefab: {fileID: 5401207376021426880, guid: 7a7b2db671a85b046be42c5b2283bec8, type: 3}
+    TotalCount: 3
+  TotalSpawnRange: {x: 2, y: 4}

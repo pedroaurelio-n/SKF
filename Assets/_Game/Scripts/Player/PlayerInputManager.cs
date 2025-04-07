@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,5 +31,10 @@ public class PlayerInputManager : MonoBehaviour
         inputs.JumpPressed = _controls.Gameplay.Jump.triggered;
 
         _characterController.SetInputs(ref inputs);
+    }
+
+    void OnDestroy ()
+    {
+        _controls.Disable();
     }
 }
