@@ -11,18 +11,30 @@ public class Enemy : MonoBehaviour
 
     bool _isFlashing;
 
-    public void Reset ()
+    void OnEnable ()
+    {
+        health.OnDamage += StartDamageFlash;
+        health.OnDeath += Die;
+    }
+
+    void OnDisable ()
+    {
+        health.OnDamage -= StartDamageFlash;
+        health.OnDeath -= Die;
+    }
+
+    public void ResetEnemy ()
     {
         health.Reset();
     }
     
-    public void Die ()
+    void Die ()
     {
         OnDeath?.Invoke();
         gameObject.SetActive(false);
     }
     
-    public void StartDamageFlash ()
+    void StartDamageFlash (int current, int max)
     {
         if (_isFlashing)
             return;

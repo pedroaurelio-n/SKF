@@ -1,19 +1,20 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] UnityEvent onDeath;
-    [SerializeField] UnityEvent onDamage;
-    [SerializeField] UnityEvent<float> onInvincibilityStart;
-    [SerializeField] UnityEvent onInvincibilityEnd;
+    public event Action<int, int> OnStart;
+    public event Action<int, int> OnDamage;
+    public event Action OnDeath;
+    public event Action<float> OnInvincibilityStart;
+    public event Action OnInvincibilityEnd;
     
-    [SerializeField] float maxHealth;
+    [SerializeField] int maxHealth;
     [SerializeField] bool hasInvincibility;
     [SerializeField] float invincibilityTime;
 
-    float _currentHealth;
+    int _currentHealth;
     bool _hasDied;
     
     bool _isInvincible;
@@ -23,6 +24,7 @@ public class Health : MonoBehaviour
     void Start ()
     {
         Reset();
+        OnStart?.Invoke(_currentHealth, maxHealth);
         _waitForInvincibility = new WaitForSeconds(invincibilityTime);
     }
 
@@ -34,6 +36,9 @@ public class Health : MonoBehaviour
 
     public void ModifyHealth (int difference)
     {
+        if (_hasDied)
+            return;
+        
         if (_isInvincible && difference < 0)
             return;
         
@@ -43,13 +48,13 @@ public class Health : MonoBehaviour
         {
             _currentHealth = 0;
             _hasDied = true;
-            onDeath?.Invoke();
+            OnDeath?.Invoke();
             return;
         }
 
         if (difference < 0)
         {
-            onDamage?.Invoke();
+            OnDamage?.Invoke(_currentHealth, maxHealth);
             
             if (hasInvincibility)
                 _invincibilityRoutine = StartCoroutine(InvincibilityRoutine());
@@ -58,12 +63,12 @@ public class Health : MonoBehaviour
 
     IEnumerator InvincibilityRoutine ()
     {
-        onInvincibilityStart?.Invoke(invincibilityTime);
+        OnInvincibilityStart?.Invoke(invincibilityTime);
         _isInvincible = true;
         yield return _waitForInvincibility;
         
         _isInvincible = false;
-        onInvincibilityEnd?.Invoke();
+        OnInvincibilityEnd?.Invoke();
         _invincibilityRoutine = null;
     }
 }

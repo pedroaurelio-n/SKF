@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour
@@ -10,10 +8,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] List<WaveConfig> waveConfigs;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] float delayBetweenWaves;
-
-    [SerializeField] UnityEvent<int, int> onWaveStarted;
-    [SerializeField]  UnityEvent<int> onWaveCompleted;
-    [SerializeField]  UnityEvent onAllWavesCompleted;
 
     List<Enemy> _activeEnemies = new();
     int _currentWaveIndex;
@@ -33,18 +27,18 @@ public class WaveManager : MonoBehaviour
             _waveInProgress = true;
             WaveConfig wave = waveConfigs[_currentWaveIndex];
 
-            onWaveStarted?.Invoke(_currentWaveIndex + 1, waveConfigs.Count);
+            EventManager.TriggerWaveStarted(_currentWaveIndex + 1, waveConfigs.Count);
 
             yield return StartCoroutine(HandleWave(wave));
 
-            onWaveCompleted?.Invoke(_currentWaveIndex + 1);
+            EventManager.TriggerWaveDefeated(_currentWaveIndex + 1);
             _currentWaveIndex++;
 
             if (_currentWaveIndex < waveConfigs.Count)
                 yield return new WaitForSeconds(delayBetweenWaves);
         }
 
-        onAllWavesCompleted?.Invoke();
+        EventManager.TriggerAllWavesDefeated();
     }
 
     IEnumerator HandleWave(WaveConfig wave)

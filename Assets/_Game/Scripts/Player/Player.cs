@@ -4,13 +4,31 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public event Action OnDeath;
-
+    [SerializeField] Health health;
     [SerializeField] SpriteRenderer sprite;
-    
+
+    void OnEnable ()
+    {
+        health.OnDamage += PlayerDamaged;
+        health.OnDeath += Die;
+        health.OnInvincibilityStart += StartInvincibilityFlash;
+    }
+
+    void OnDisable ()
+    {
+        health.OnDamage -= PlayerDamaged;
+        health.OnDeath -= Die;
+        health.OnInvincibilityStart -= StartInvincibilityFlash;
+    }
+
+    void PlayerDamaged (int current, int max)
+    {
+        EventManager.TriggerPlayerHealthChanged(current, max);
+    }
+
     public void Die ()
     {
-        OnDeath?.Invoke();
+        EventManager.TriggerPlayerDeath();
         gameObject.SetActive(false);
     }
 

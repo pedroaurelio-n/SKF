@@ -1,10 +1,21 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameEnd : MonoBehaviour
 {
     [SerializeField] GameObject gameOverContainer;
     [SerializeField] GameObject gameWinContainer;
+
+    void OnEnable ()
+    {
+        EventManager.OnPlayerDeath += TriggerGameOver;
+        EventManager.OnAllWavesDefeated += TriggerGameWin;
+    }
+
+    void OnDisable ()
+    {
+        EventManager.OnPlayerDeath -= TriggerGameOver;
+        EventManager.OnAllWavesDefeated -= TriggerGameWin;
+    }
 
     public void TriggerGameOver ()
     {
@@ -18,11 +29,11 @@ public class GameEnd : MonoBehaviour
 
     public void PlayAgain ()
     {
-        SceneManager.LoadScene("TestPedro");
+        ScreenTransitionManager.Instance.ChangeScene("TestPedro");
     }
 
     public void GoToMainMenu ()
     {
-        SceneManager.LoadScene("MainMenu");
+        ScreenTransitionManager.Instance.ChangeScene("MainMenu");
     }
 }

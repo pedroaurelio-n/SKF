@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play ()
     {
-        SceneManager.LoadScene("TestPedro");
+        ScreenTransitionManager.Instance.ChangeScene("TestPedro");
     }
 
     public void GoToMenuPanel ()

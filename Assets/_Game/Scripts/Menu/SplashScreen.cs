@@ -5,6 +5,6 @@ public class SplashScreen : MonoBehaviour
 {
     public void GoToMainMenu ()
     {
-        SceneManager.LoadScene("MainMenu");
+        ScreenTransitionManager.Instance.ChangeScene("MainMenu");
     }
 }

@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
                 yield return _waitForReset;
             
             _enemy.gameObject.SetActive(true);
-            _enemy.Reset();
+            _enemy.ResetEnemy();
             yield return _waitForReset;
         }
     }
