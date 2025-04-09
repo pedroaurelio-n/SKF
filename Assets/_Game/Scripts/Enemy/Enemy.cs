@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(false);
     }
     
-    void StartDamageFlash (int current, int max)
+    void StartDamageFlash (int current, int max, Vector3 direction)
     {
         if (_isFlashing)
             return;

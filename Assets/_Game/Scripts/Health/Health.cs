@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public event Action<int, int> OnStart;
-    public event Action<int, int> OnDamage;
+    public event Action<int, int, Vector3> OnDamage;
     public event Action OnDeath;
     public event Action<float> OnInvincibilityStart;
     public event Action OnInvincibilityEnd;
@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
         _currentHealth = maxHealth;
     }
 
-    public void ModifyHealth (int difference)
+    public void ModifyHealth (int difference, Vector3 direction)
     {
         if (_hasDied)
             return;
@@ -54,7 +54,7 @@ public class Health : MonoBehaviour
 
         if (difference < 0)
         {
-            OnDamage?.Invoke(_currentHealth, maxHealth);
+            OnDamage?.Invoke(_currentHealth, maxHealth, direction);
             
             if (hasInvincibility)
                 _invincibilityRoutine = StartCoroutine(InvincibilityRoutine());

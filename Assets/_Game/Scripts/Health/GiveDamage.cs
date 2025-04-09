@@ -13,7 +13,7 @@ public class GiveDamage : MonoBehaviour
         if (!other.TryGetComponent<Health>(out Health health))
             return;
         
-        health.ModifyHealth(-damage);
+        ModifyHealth(health);
     }
 
     void OnCollisionEnter (Collision other)
@@ -24,7 +24,13 @@ public class GiveDamage : MonoBehaviour
         if (!other.gameObject.TryGetComponent<Health>(out Health health))
             return;
         
-        health.ModifyHealth(-damage);
+        ModifyHealth(health);
+    }
+
+    void ModifyHealth (Health health)
+    {
+        Vector3 direction = health.gameObject.transform.position - transform.position;
+        health.ModifyHealth(-damage, direction.normalized);
     }
     
     bool IsInDamageableLayer(GameObject obj)

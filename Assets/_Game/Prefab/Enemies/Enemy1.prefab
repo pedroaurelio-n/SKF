@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1091788520535508556}
   - component: {fileID: 3653185364513608037}
   - component: {fileID: 8582778158535308235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,42 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7c4963723f0634682d14557bdd44f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onDeath:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5401207376021426880}
-        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
-        m_MethodName: Die
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onDamage:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5401207376021426880}
-        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
-        m_MethodName: StartDamageFlash
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onInvincibilityStart:
-    m_PersistentCalls:
-      m_Calls: []
-  onInvincibilityEnd:
-    m_PersistentCalls:
-      m_Calls: []
   maxHealth: 3
   hasInvincibility: 0
   invincibilityTime: 0

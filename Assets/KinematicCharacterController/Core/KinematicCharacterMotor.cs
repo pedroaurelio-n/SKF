@@ -744,6 +744,13 @@ namespace KinematicCharacterController
             TransientRotation = _transform.rotation;
 
             // Build CollidableLayers mask
+            BuildCollidableLayers();
+
+            SetCapsuleDimensions(CapsuleRadius, CapsuleHeight, CapsuleYOffset);
+        }
+
+        public void BuildCollidableLayers ()
+        {
             CollidableLayers = 0;
             for (int i = 0; i < 32; i++)
             {
@@ -752,8 +759,6 @@ namespace KinematicCharacterController
                     CollidableLayers |= (1 << i);
                 }
             }
-
-            SetCapsuleDimensions(CapsuleRadius, CapsuleHeight, CapsuleYOffset);
         }
 
         /// <summary>

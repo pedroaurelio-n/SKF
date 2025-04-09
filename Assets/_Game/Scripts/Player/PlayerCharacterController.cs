@@ -31,7 +31,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     [SerializeField] float jumpPostGroundingGraceTime = 0.2f;
 
     [Header("Wall Sliding")]
-    [SerializeField] float maxWallSlideSpeed = -2f; // Velocidade máxima de descida ao deslizar na parede
+    [SerializeField] float maxWallSlideSpeed = -2f; // Velocidade mï¿½xima de descida ao deslizar na parede
 
     [Header("Misc")]
     [SerializeField] Vector3 defaultGravity = new(0, -30f, 0);
@@ -56,7 +56,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     bool _canCoyoteJump;
     bool _coyoteJumped;
 
-    // Flag para indicar se o personagem está deslizando na parede
+    // Flag para indicar se o personagem estï¿½ deslizando na parede
     bool _isWallSliding = false;
 
     void Start()
@@ -90,14 +90,14 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        // Aqui você pode implementar a rotação baseada na direção de movimento, se necessário.
+        // Aqui vocï¿½ pode implementar a rotaï¿½ï¿½o baseada na direï¿½ï¿½o de movimento, se necessï¿½rio.
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         Vector3 targetMovementVelocity;
 
-        // Movimento no chão
+        // Movimento no chï¿½o
         if (Motor.GroundingStatus.IsStableOnGround)
         {
             currentVelocity = Motor.GetDirectionTangentToSurface(currentVelocity, Motor.GroundingStatus.GroundNormal) * currentVelocity.magnitude;
@@ -227,7 +227,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         return true;
     }
 
-    // Método chamado quando ocorre uma colisão durante o movimento
+    // Mï¿½todo chamado quando ocorre uma colisï¿½o durante o movimento
     public void OnMovementHit(
         Collider hitCollider,
         Vector3 hitNormal,
@@ -235,8 +235,8 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport
     )
     {
-        // Se não está no chão e o normal tem componente horizontal suficiente, ativa o wall slide.
-        // Ajustamos o limiar para 0.3 para detectar paredes mesmo com ângulos menos extremos.
+        // Se nï¿½o estï¿½ no chï¿½o e o normal tem componente horizontal suficiente, ativa o wall slide.
+        // Ajustamos o limiar para 0.3 para detectar paredes mesmo com ï¿½ngulos menos extremos.
         if (!Motor.GroundingStatus.IsStableOnGround && Mathf.Abs(hitNormal.x) > 0.3f)
         {
             _isWallSliding = true;
@@ -251,7 +251,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         ref HitStabilityReport hitStabilityReport
     )
     {
-        // Pode ser utilizado para outras lógicas ao tocar o chão.
+        // Pode ser utilizado para outras lï¿½gicas ao tocar o chï¿½o.
     }
 
     public void ProcessHitStabilityReport(
@@ -284,11 +284,11 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 
     void HandleLanded()
     {
-        // Lógica ao aterrissar, se necessário.
+        // Lï¿½gica ao aterrissar, se necessï¿½rio.
     }
 
     void HandleLeftStableGround()
     {
-        // Lógica ao deixar o solo, se necessário.
+        // Lï¿½gica ao deixar o solo, se necessï¿½rio.
     }
 }

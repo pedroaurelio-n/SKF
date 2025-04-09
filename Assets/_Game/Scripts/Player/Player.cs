@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] PlayerCharacterController characterController;
     [SerializeField] Health health;
     [SerializeField] SpriteRenderer sprite;
+
+    [SerializeField] float knockBackForce;
+    bool _isIntangible;
 
     void OnEnable ()
     {
@@ -21,19 +24,25 @@ public class Player : MonoBehaviour
         health.OnInvincibilityStart -= StartInvincibilityFlash;
     }
 
-    void PlayerDamaged (int current, int max)
+    void PlayerDamaged (int current, int max, Vector3 direction)
     {
         EventManager.TriggerPlayerHealthChanged(current, max);
+        characterController.AddVelocity(direction * knockBackForce);
     }
 
-    public void Die ()
+    void Die ()
     {
         EventManager.TriggerPlayerDeath();
         gameObject.SetActive(false);
     }
 
-    public void StartInvincibilityFlash (float duration)
+    void StartInvincibilityFlash (float duration)
     {
+        if (_isIntangible)
+            return;
+        
+        _isIntangible = true;
+        IgnoreEnemyLayers(_isIntangible);
         StartCoroutine(FlashRoutine(duration));
     }
 
@@ -53,9 +62,22 @@ public class Player : MonoBehaviour
             yield return waitForFlash;
             
             timer += flashSpeed * 2;
+
+            if (_isIntangible && timer >= duration * 0.8f)
+            {
+                _isIntangible = false;
+                IgnoreEnemyLayers(_isIntangible);
+            }
             yield return null;
         }
 
         sprite.color = originalColor;
+    }
+
+    void IgnoreEnemyLayers (bool ignore)
+    {
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), ignore);
+        characterController.Motor.BuildCollidableLayers();
+        // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyBullet"), ignore);
     }
 }

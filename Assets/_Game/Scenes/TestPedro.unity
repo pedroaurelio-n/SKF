@@ -404,7 +404,7 @@ MonoBehaviour:
   MaxStableSlopeAngle: 60
   StableGroundLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   DiscreteCollisionEvents: 0
   StepHandling: 1
   MaxStepHeight: 0.5
@@ -415,8 +415,8 @@ MonoBehaviour:
   MaxVelocityForLedgeSnap: 0
   MaxStableDenivelationAngle: 180
   InteractiveRigidbodyHandling: 1
-  RigidbodyInteractionType: 0
-  SimulatedCharacterMass: 1
+  RigidbodyInteractionType: 2
+  SimulatedCharacterMass: 0.1
   PreserveAttachedRigidbodyMomentum: 1
   HasPlanarConstraint: 1
   PlanarConstraintAxis: {x: 0, y: 0, z: 1}
@@ -507,7 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7c4963723f0634682d14557bdd44f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 5
   hasInvincibility: 1
   invincibilityTime: 1.2
 --- !u!114 &49256490
@@ -522,8 +522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd3b908296b443d8e6dd42b2b4bb20b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 49256487}
   health: {fileID: 49256489}
   sprite: {fileID: 2004465503}
+  knockBackForce: 20
 --- !u!54 &49256491
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1977,7 +1979,7 @@ Transform:
   m_LocalScale: {x: 1, y: 44.54718, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 655509395}
+  m_Father: {fileID: 1907014331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &636292556
 BoxCollider:
@@ -2081,10 +2083,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1968136030}
-  - {fileID: 636292555}
-  - {fileID: 1724357647}
+  m_Children: []
   m_Father: {fileID: 1907014331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &655509396
@@ -3928,7 +3927,7 @@ Transform:
   m_LocalScale: {x: 1, y: 44.447243, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 655509395}
+  m_Father: {fileID: 1907014331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1724357648
 BoxCollider:
@@ -4485,6 +4484,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 655509395}
+  - {fileID: 1968136030}
+  - {fileID: 636292555}
+  - {fileID: 1724357647}
   - {fileID: 510010528}
   - {fileID: 1631198652}
   - {fileID: 40676183}
@@ -4714,7 +4716,7 @@ Transform:
   m_LocalScale: {x: 36, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 655509395}
+  m_Father: {fileID: 1907014331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1968136031
 BoxCollider:
