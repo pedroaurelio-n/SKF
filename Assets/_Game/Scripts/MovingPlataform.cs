@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class MovingPlatform : MonoBehaviour
     public float speed = 2f;
 
     private Vector3 target;
-    private bool isPlayerOnPlatform = false;
+    private int playersOnPlatform = 0;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class MovingPlatform : MonoBehaviour
         {
             MovePlatform();
         }
-        else if (platformType == PlatformType.OnPlayerTouch && isPlayerOnPlatform)
+        else if (platformType == PlatformType.OnPlayerTouch && playersOnPlatform > 0)
         {
             MovePlatform();
         }
@@ -44,18 +44,11 @@ public class MovingPlatform : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("OnTriggerEnter: Player entrou.");
-            isPlayerOnPlatform = true;
-            other.transform.SetParent(transform);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player") && !isPlayerOnPlatform)
-        {
-            Debug.Log("OnTriggerStay: Player detectado.");
-            isPlayerOnPlatform = true;
-            other.transform.SetParent(transform);
+            if (!other.transform.IsChildOf(transform))
+            {
+                other.transform.SetParent(transform);
+                playersOnPlatform++;
+            }
         }
     }
 
@@ -64,8 +57,11 @@ public class MovingPlatform : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("OnTriggerExit: Player saiu.");
-            isPlayerOnPlatform = false;
-            other.transform.SetParent(null);
+            if (other.transform.IsChildOf(transform))
+            {
+                other.transform.SetParent(null);
+                playersOnPlatform = Mathf.Max(0, playersOnPlatform - 1);
+            }
         }
     }
 }

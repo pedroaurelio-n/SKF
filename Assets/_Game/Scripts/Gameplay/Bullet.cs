@@ -1,30 +1,25 @@
-using System;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float timeLife = 2f;
+    public float speed = 10f;
+    private int damage;
+    private Vector2 direction;
 
-    Vector3 _shootingDirection;
-
-    void Start()
+    public void Setup(Vector2 dir, int dmg = 1)
     {
-        Destroy(gameObject, timeLife); // Destroi a bala ap�s um tempo
-    }
-
-    public void Setup (Vector3 direction)
-    {
-        _shootingDirection = direction * speed;
+        direction = dir.normalized;
+        damage = dmg;
     }
 
     void Update()
     {
-        transform.Translate(Time.deltaTime * _shootingDirection);
+        transform.Translate(direction * speed * Time.deltaTime);
     }
 
-    void OnTriggerEnter (Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        // Aqui você pode aplicar o dano se o alvo tiver um script de vida
         Destroy(gameObject);
     }
 }
