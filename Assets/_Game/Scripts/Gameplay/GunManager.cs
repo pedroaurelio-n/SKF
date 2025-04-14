@@ -2,34 +2,52 @@ using UnityEngine;
 
 public class GunManager : MonoBehaviour
 {
-    public SpriteRenderer gunSpriteRenderer;
-    public Transform firePoint;
-    public GunData defaultGun;
+    [SerializeField] private GunData defaultGun;
+    [SerializeField] private SpriteRenderer gunSpriteRenderer;
+    [SerializeField] private Transform firePoint;
 
-    private GunData currentGun;
     private GunShooting gunShooting;
+    private GunData currentGunOriginal; // Referência ao ScriptableObject original
+    private GunData currentGunInstance; // Cópia que usamos no jogo (runtime)
 
-    private void Start()
+    void Start()
     {
         gunShooting = GetComponent<GunShooting>();
         EquipGun(defaultGun);
     }
 
-    public void EquipGun(GunData newGun)
+    public Transform GetFirePoint()
     {
-        currentGun = newGun;
-        gunSpriteRenderer.sprite = newGun.gunSprite;
-        gunShooting.UpdateGun(newGun);
+        return firePoint;
     }
 
+
+    public void EquipGun(GunData newGun)
+    {
+        currentGunOriginal = newGun;
+
+        // Cria uma cópia para runtime
+        currentGunInstance = Instantiate(newGun);
+
+        gunSpriteRenderer.sprite = currentGunInstance.gunSprite;
+        gunShooting.UpdateGun(currentGunInstance);
+    }
     public void UseAmmo()
     {
-        if (currentGun == defaultGun) return;
-
-        currentGun.ammo--;
-        if (currentGun.ammo <= 0)
+        if (currentGunInstance != defaultGun)
         {
-            EquipGun(defaultGun);
+            currentGunInstance.ammo--;
+
+            if (currentGunInstance.ammo <= 0)
+            {
+                RevertToDefaultGun();
+            }
         }
+    }
+
+
+    public void RevertToDefaultGun()
+    {
+        EquipGun(defaultGun);
     }
 }

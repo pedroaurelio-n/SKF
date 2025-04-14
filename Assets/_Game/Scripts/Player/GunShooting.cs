@@ -4,17 +4,12 @@ using UnityEngine;
 public class GunShooting : MonoBehaviour
 {
     private GunData currentGun;
-    private GunManager gunManager;
     private bool podeAtirar = true;
+    private GunManager gunManager;
 
-    private void Start()
+    void Start()
     {
         gunManager = GetComponent<GunManager>();
-    }
-
-    public void UpdateGun(GunData gunData)
-    {
-        currentGun = gunData;
     }
 
     void Update()
@@ -22,21 +17,39 @@ public class GunShooting : MonoBehaviour
         if (Input.GetMouseButton(0) && podeAtirar && currentGun != null)
         {
             StartCoroutine(Atirar());
+
         }
+
     }
 
     private IEnumerator Atirar()
     {
+        if (currentGun == null)
+        {
+            Debug.LogWarning("Arma não atribuída!");
+            yield break;
+        }
+
         podeAtirar = false;
 
         // Instancia o projétil
-        Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.firePoint.position, Quaternion.identity);
-        bullet.Setup(gunManager.firePoint.right, currentGun.damage);
+        Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.identity);
+        bullet.Setup(gunManager.GetFirePoint().right, currentGun.damage);
 
-        // Consome munição se não for a arma padrão
+        Debug.Log("Direção da bala: " + gunManager.GetFirePoint().right);
+
+
+
+
+        // Consome munição
         gunManager.UseAmmo();
 
         yield return new WaitForSeconds(currentGun.fireRate);
         podeAtirar = true;
+    }
+
+    public void UpdateGun(GunData gunData)
+    {
+        currentGun = gunData;
     }
 }

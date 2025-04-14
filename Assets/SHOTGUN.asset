@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SHOTGUN
   m_EditorClassIdentifier: 
   weaponName: 
-  gunSprite: {fileID: 0}
-  bulletPrefab: {fileID: 0}
-  fireRate: 0.2
-  ammo: 10
-  damage: 1
+  gunSprite: {fileID: 21300000, guid: eefc3f69f68ea2745ba3073e0322121c, type: 3}
+  bulletPrefab: {fileID: 4117034371073466114, guid: 6e8a834536bba5044bc925da4e2601a1, type: 3}
+  fireRate: 0.8
+  ammo: 15
+  damage: 5
