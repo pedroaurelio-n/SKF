@@ -7,8 +7,16 @@ public class GunManager : MonoBehaviour
     [SerializeField] private Transform firePoint;
 
     private GunShooting gunShooting;
-    private GunData currentGunOriginal; // Referência ao ScriptableObject original
-    private GunData currentGunInstance; // Cópia que usamos no jogo (runtime)
+    private GunData currentGunInstance;
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        // cria um AudioSource automáticamente
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f; // 2D sound
+    }
 
     void Start()
     {
@@ -16,38 +24,28 @@ public class GunManager : MonoBehaviour
         EquipGun(defaultGun);
     }
 
-    public Transform GetFirePoint()
-    {
-        return firePoint;
-    }
-
+    public Transform GetFirePoint() => firePoint;
 
     public void EquipGun(GunData newGun)
     {
-        currentGunOriginal = newGun;
-
-        // Cria uma cópia para runtime
+        // instancia uma cópia em runtime
         currentGunInstance = Instantiate(newGun);
-
         gunSpriteRenderer.sprite = currentGunInstance.gunSprite;
+
+        // avisa o GunShooting da nova arma
         gunShooting.UpdateGun(currentGunInstance);
     }
-    public void UseAmmo()
+
+    // este método será chamado no disparo
+    public void PlayFireSound()
     {
-        if (currentGunInstance != defaultGun)
+        if (currentGunInstance.fireSound != null)
         {
-            currentGunInstance.ammo--;
-
-            if (currentGunInstance.ammo <= 0)
-            {
-                RevertToDefaultGun();
-            }
+            audioSource.pitch = currentGunInstance.firePitch;
+            audioSource.PlayOneShot(
+                currentGunInstance.fireSound,
+                currentGunInstance.fireVolume
+            );
         }
-    }
-
-
-    public void RevertToDefaultGun()
-    {
-        EquipGun(defaultGun);
     }
 }

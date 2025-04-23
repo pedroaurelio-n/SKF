@@ -17,9 +17,7 @@ public class GunShooting : MonoBehaviour
         if (Input.GetMouseButton(0) && podeAtirar && currentGun != null)
         {
             StartCoroutine(Atirar());
-
         }
-
     }
 
     private IEnumerator Atirar()
@@ -38,11 +36,8 @@ public class GunShooting : MonoBehaviour
 
         Debug.Log("Direção da bala: " + gunManager.GetFirePoint().right);
 
-
-
-
-        // Consome munição
-        gunManager.UseAmmo();
+        // Toca o som do disparo
+        gunManager.PlayFireSound();
 
         yield return new WaitForSeconds(currentGun.fireRate);
         podeAtirar = true;
