@@ -1,25 +1,20 @@
 using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class GunShooting : MonoBehaviour
 {
-    [SerializeField] private Transform firePoint; // Ponto de origem do tiro
-    [SerializeField] private Bullet shotPrefab; // Prefab do tiro
-    [SerializeField] private float timeShot = 0.2f; // Tempo entre disparos
-
+    private GunData currentGun;
     private bool podeAtirar = true;
-    private Transform player; // Refer�ncia ao jogador
+    private GunManager gunManager;
 
     void Start()
     {
-        // Obt�m a refer�ncia do jogador (supondo que o script esteja na arma)
-        player = transform.root; // Pegando o objeto raiz (personagem)
+        gunManager = GetComponent<GunManager>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && podeAtirar) // Bot�o esquerdo do mouse
+        if (Input.GetMouseButton(0) && podeAtirar && currentGun != null && currentGun.ammo > 0)
         {
             StartCoroutine(Atirar());
         }
@@ -27,14 +22,37 @@ public class GunShooting : MonoBehaviour
 
     private IEnumerator Atirar()
     {
+        if (currentGun == null)
+        {
+            Debug.LogWarning("Arma não atribuída!");
+            yield break;
+        }
+
         podeAtirar = false;
 
-        // Instancia o tiro na posi��o e rota��o do firePoint
-        Bullet bullet = Instantiate(shotPrefab, firePoint.position, Quaternion.identity, null);
-        bullet.Setup(firePoint.right);
+        // Instancia o projétil
+        Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.identity);
+        bullet.Setup(gunManager.GetFirePoint().right, currentGun.damage);
 
-        yield return new WaitForSeconds(timeShot);
+        // Som
+        gunManager.PlayFireSound();
 
+        // Consome munição
+        currentGun.ammo--;
+
+        // Verifica se acabou a munição
+        if (currentGun.ammo <= 0)
+        {
+            Debug.Log("Munição esgotada. Trocando para arma padrão.");
+            gunManager.EquipDefaultGun();
+        }
+
+        yield return new WaitForSeconds(currentGun.fireRate);
         podeAtirar = true;
+    }
+
+    public void UpdateGun(GunData gunData)
+    {
+        currentGun = gunData;
     }
 }

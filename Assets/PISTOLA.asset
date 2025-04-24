@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0827cb887a72874daaf67a1c220404f, type: 3}
+  m_Name: PISTOLA
+  m_EditorClassIdentifier: 
+  weaponName: 
+  gunSprite: {fileID: 21300000, guid: 4d36e84963d9b8749915fcc82ec69e25, type: 3}
+  bulletPrefab: {fileID: 4117034371073466114, guid: d592eabef3e1fb44ea77b0ad539d2dd5, type: 3}
+  fireRate: 0.5
+  ammo: 99999
+  damage: 1
+  fireSound: {fileID: 8300000, guid: 7115c104cf3981b4b8fc3386aafcd11d, type: 3}
+  fireVolume: 1
+  firePitch: 1
