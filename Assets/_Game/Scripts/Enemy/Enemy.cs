@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,7 +10,20 @@ public class Enemy : MonoBehaviour
     [SerializeField] Health health;
     [SerializeField] SpriteRenderer sprite;
 
+    EnemyAI _enemyAI;
     bool _isFlashing;
+
+    private void Awake()
+    {
+        _enemyAI = GetComponent<EnemyAI>();
+        Invoke(nameof(ActivateAI), 0.7f);
+    }
+
+    void ActivateAI()
+    {
+        _enemyAI.enabled = true;
+        GetComponent<NavMeshAgent>().enabled = true;
+    }
 
     void OnEnable ()
     {

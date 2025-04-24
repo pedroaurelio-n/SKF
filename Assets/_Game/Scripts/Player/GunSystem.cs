@@ -27,7 +27,7 @@ public class GunSystem : MonoBehaviour
     void Start()
     {
         // Define o cursor padrão no início
-        Cursor.SetCursor(defaultCursor, cursorHotspot, CursorMode.Auto);
+        // Cursor.SetCursor(defaultCursor, cursorHotspot, CursorMode.Auto);
     }
 
     void Update()
@@ -39,14 +39,14 @@ public class GunSystem : MonoBehaviour
         if (!gameStarted && Input.GetMouseButtonDown(0))
         {
             gameStarted = true;
-            Cursor.SetCursor(gameCursor, cursorHotspot, CursorMode.Auto);
+            // Cursor.SetCursor(gameCursor, cursorHotspot, CursorMode.Auto);
         }
 
         // Se o jogo estiver ativo e o jogador pressionar ESC, volta para o cursor padrão
         if (gameStarted && Input.GetKeyDown(KeyCode.Escape))
         {
             gameStarted = false;
-            Cursor.SetCursor(defaultCursor, cursorHotspot, CursorMode.Auto);
+            // Cursor.SetCursor(defaultCursor, cursorHotspot, CursorMode.Auto);
         }
     }
 

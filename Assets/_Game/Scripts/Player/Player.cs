@@ -1,14 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance;
+    
     [SerializeField] PlayerCharacterController characterController;
     [SerializeField] Health health;
     [SerializeField] SpriteRenderer sprite;
 
     [SerializeField] float knockBackForce;
     bool _isIntangible;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void OnEnable ()
     {
