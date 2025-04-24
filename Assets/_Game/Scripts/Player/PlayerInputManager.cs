@@ -27,6 +27,7 @@ public class PlayerInputManager : MonoBehaviour
 
         Vector2 movement = _controls.Gameplay.Move.ReadValue<Vector2>();
         inputs.MoveRightAxis = movement.x;
+        inputs.MoveUpAxis = movement.y;
         
         inputs.JumpPressed = _controls.Gameplay.Jump.triggered;
 

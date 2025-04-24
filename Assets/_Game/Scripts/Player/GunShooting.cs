@@ -31,7 +31,7 @@ public class GunShooting : MonoBehaviour
         podeAtirar = false;
 
         // Instancia o projétil
-        Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.identity);
+        Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.Euler(0, 0, gunManager.GetFirePoint().eulerAngles.z));
         bullet.Setup(gunManager.GetFirePoint().right, currentGun.damage);
 
         // Som

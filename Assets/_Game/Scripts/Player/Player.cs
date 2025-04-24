@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public static Player Instance;
     
-    [SerializeField] PlayerCharacterController characterController;
+    [field: SerializeField] public PlayerCharacterController CharacterController { get; private set; }
+    [field: SerializeField] public Animator Animator { get; private set; }
+    
     [SerializeField] Health health;
-    [SerializeField] SpriteRenderer sprite;
+    [SerializeField] GameObject mainSprite;
+    
+    SpriteRenderer[] sprites;
 
     [SerializeField] float knockBackForce;
     bool _isIntangible;
@@ -16,6 +19,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        sprites = mainSprite.GetComponentsInChildren<SpriteRenderer>();
     }
 
     void OnEnable ()
@@ -35,13 +39,14 @@ public class Player : MonoBehaviour
     void PlayerDamaged (int current, int max, Vector3 direction)
     {
         EventManager.TriggerPlayerHealthChanged(current, max);
-        characterController.AddVelocity(direction * knockBackForce);
+        CharacterController.AddVelocity(direction * knockBackForce);
     }
 
     void Die ()
     {
         EventManager.TriggerPlayerDeath();
-        gameObject.SetActive(false);
+        CharacterController.enabled = false;
+        Animator.SetTrigger("Died");
     }
 
     void StartInvincibilityFlash (float duration)
@@ -57,16 +62,18 @@ public class Player : MonoBehaviour
     IEnumerator FlashRoutine (float duration)
     {
         float timer = 0f;
-        Color originalColor = sprite.color;
+        Color originalColor = Color.white;
         float flashSpeed = 0.1f;
         WaitForSeconds waitForFlash = new(flashSpeed);
         
         while (timer < duration)
         {
-            sprite.color = Color.white;
+            foreach (SpriteRenderer sprite in sprites)
+                sprite.color = Color.yellow;
             yield return waitForFlash;
 
-            sprite.color = originalColor;
+            foreach (SpriteRenderer sprite in sprites)
+                sprite.color = originalColor;
             yield return waitForFlash;
             
             timer += flashSpeed * 2;
@@ -79,13 +86,14 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        sprite.color = originalColor;
+        foreach (SpriteRenderer sprite in sprites)
+            sprite.color = originalColor;
     }
 
     void IgnoreEnemyLayers (bool ignore)
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), ignore);
-        characterController.Motor.BuildCollidableLayers();
+        CharacterController.Motor.BuildCollidableLayers();
         // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyBullet"), ignore);
     }
 }

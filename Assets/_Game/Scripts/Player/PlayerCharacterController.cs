@@ -1,9 +1,11 @@
+using System;
 using KinematicCharacterController;
 using UnityEngine;
 
 public struct PlayerCharacterInputs
 {
     public float MoveRightAxis;
+    public float MoveUpAxis;
     public bool JumpPressed;
 }
 
@@ -35,9 +37,11 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 
     [Header("Misc")]
     [SerializeField] Vector3 defaultGravity = new(0, -30f, 0);
+    [SerializeField] bool isPlayer;
 
     public Vector2 RawInputVector => _rawInputVector;
     public Vector2 MoveInputVector => _moveInputVector;
+    public Vector3 Velocity => _velocity;
 
     Vector2 _rawInputVector;
     Vector3 _moveInputVector;
@@ -46,6 +50,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     Vector3 _gravity;
     Vector3 _velocity;
     Vector3 _internalVelocityAdd = Vector3.zero;
+    bool _isGrounded;
 
     int _currentJumpCount;
     float _jumpForce;
@@ -58,6 +63,21 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 
     // Flag para indicar se o personagem est� deslizando na parede
     bool _isWallSliding = false;
+    
+    private bool _enableCollisions;
+
+    Player _player;
+    Vector3 _initialScale;
+    Vector3 _invertedScale;
+
+    void Awake()
+    {
+        if (!isPlayer)
+            return;
+        _player = GetComponentInParent<Player>();
+        _initialScale = _player.Animator.transform.localScale;
+        _invertedScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
+    }
 
     void Start()
     {
@@ -68,10 +88,10 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
 
     public void SetInputs(ref PlayerCharacterInputs inputs)
     {
-        _rawInputVector = new Vector2(inputs.MoveRightAxis, 0f);
+        _rawInputVector = new Vector2(inputs.MoveRightAxis, inputs.MoveUpAxis);
 
         // Clamp no input para movimento
-        Vector3 moveInputVector = Vector2.ClampMagnitude(new Vector3(_rawInputVector.x, _rawInputVector.y), 1f);
+        Vector3 moveInputVector = Vector2.ClampMagnitude(new Vector3(_rawInputVector.x, 0f), 1f);
         _moveInputVector = moveInputVector;
 
         if (inputs.JumpPressed)
@@ -86,6 +106,8 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         _gravity = defaultGravity;
         _isWallSliding = false; // Reseta o wall sliding a cada frame
         _canCoyoteJump = _timeSinceLastAbleToJump <= jumpPostGroundingGraceTime;
+        
+        _enableCollisions = Motor.Velocity.y > -0.5f;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
@@ -176,6 +198,9 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
                 _jumpRequested = false;
                 _currentJumpCount++;
                 _jumpedThisFrame = true;
+                
+                if (isPlayer)
+                    _player.Animator.SetTrigger("HasJumped");
             }
 
             bool hasExtraJumps = _currentJumpCount > 0 && _currentJumpCount < maxJumpCount;
@@ -187,6 +212,9 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
                 _jumpRequested = false;
                 _currentJumpCount++;
                 _jumpedThisFrame = true;
+                
+                if (isPlayer)
+                    _player.Animator.SetTrigger("HasJumped");
             }
         }
 
@@ -197,6 +225,15 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         }
 
         _velocity = Motor.Velocity;
+        
+        if (isPlayer)
+        {
+            _player.Animator.SetBool("IsRunning", Mathf.Abs(_velocity.x) > 0.5f);
+            if (_velocity.x < -0.5f)
+                _player.Animator.transform.localScale = _invertedScale;
+            else if (_velocity.x > 0.5f)
+                _player.Animator.transform.localScale = _initialScale;
+        }
     }
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -219,11 +256,29 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         }
         else
             _timeSinceLastAbleToJump += deltaTime;
+
+        _isGrounded = allowJumpingWhenSliding
+            ? Motor.GroundingStatus.FoundAnyGround
+            : Motor.GroundingStatus.IsStableOnGround;
+        
+        if (isPlayer)
+            _player.Animator.SetBool("IsFalling", !_isGrounded);
     }
 
 
     public bool IsColliderValidForCollisions(Collider coll)
     {
+        if (coll.TryGetComponent<OneWayPlatform3D>(out OneWayPlatform3D platform))
+        {
+            Vector3 characterPosition = Motor.TransientPosition;
+            float platformY = coll.bounds.max.y;
+            
+            if (_enableCollisions && characterPosition.y < platformY - 0.05f)
+            {
+                return false;
+            }
+        }
+        
         return true;
     }
 

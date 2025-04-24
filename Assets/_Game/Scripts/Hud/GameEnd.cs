@@ -29,7 +29,7 @@ public class GameEnd : MonoBehaviour
 
     public void PlayAgain ()
     {
-        ScreenTransitionManager.Instance.ChangeScene("TestPedro");
+        ScreenTransitionManager.Instance.ChangeScene("GameplayScene");
     }
 
     public void GoToMainMenu ()
