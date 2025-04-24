@@ -14,7 +14,7 @@ public class GunShooting : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && podeAtirar && currentGun != null)
+        if (Input.GetMouseButton(0) && podeAtirar && currentGun != null && currentGun.ammo > 0)
         {
             StartCoroutine(Atirar());
         }
@@ -34,10 +34,18 @@ public class GunShooting : MonoBehaviour
         Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.identity);
         bullet.Setup(gunManager.GetFirePoint().right, currentGun.damage);
 
-        Debug.Log("Direção da bala: " + gunManager.GetFirePoint().right);
-
-        // Toca o som do disparo
+        // Som
         gunManager.PlayFireSound();
+
+        // Consome munição
+        currentGun.ammo--;
+
+        // Verifica se acabou a munição
+        if (currentGun.ammo <= 0)
+        {
+            Debug.Log("Munição esgotada. Trocando para arma padrão.");
+            gunManager.EquipDefaultGun();
+        }
 
         yield return new WaitForSeconds(currentGun.fireRate);
         podeAtirar = true;

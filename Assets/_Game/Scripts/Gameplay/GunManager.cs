@@ -12,7 +12,6 @@ public class GunManager : MonoBehaviour
 
     void Awake()
     {
-        // cria um AudioSource automáticamente
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f; // 2D sound
@@ -28,15 +27,16 @@ public class GunManager : MonoBehaviour
 
     public void EquipGun(GunData newGun)
     {
-        // instancia uma cópia em runtime
-        currentGunInstance = Instantiate(newGun);
+        currentGunInstance = Instantiate(newGun); // cria uma cópia independente
         gunSpriteRenderer.sprite = currentGunInstance.gunSprite;
-
-        // avisa o GunShooting da nova arma
         gunShooting.UpdateGun(currentGunInstance);
     }
 
-    // este método será chamado no disparo
+    public void EquipDefaultGun()
+    {
+        EquipGun(defaultGun);
+    }
+
     public void PlayFireSound()
     {
         if (currentGunInstance.fireSound != null)
