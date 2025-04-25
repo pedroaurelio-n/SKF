@@ -19,5 +19,5 @@ MonoBehaviour:
   ammo: 15
   damage: 5
   fireSound: {fileID: 8300000, guid: 82251174555d81c43aa3960b6c88f8b6, type: 3}
-  fireVolume: 1
+  fireVolume: 0.2
   firePitch: 1
