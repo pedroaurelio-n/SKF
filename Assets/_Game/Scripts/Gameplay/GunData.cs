@@ -5,7 +5,8 @@ public class GunData : ScriptableObject
 {
     [Header("Identificação")]
     public string weaponName;
-    public Sprite gunSprite;
+    public Sprite gunSprite;     // Sprite da arma na mão do player
+    public Sprite hudSprite;     // Sprite personalizada para a HUD
 
     [Header("Projétil")]
     public Bullet bulletPrefab;

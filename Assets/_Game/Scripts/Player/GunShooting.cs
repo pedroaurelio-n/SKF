@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GunShooting : MonoBehaviour
 {
-    private GunData currentGun;
+    private GunRuntime currentGun;
     private bool podeAtirar = true;
     private GunManager gunManager;
 
@@ -30,29 +30,25 @@ public class GunShooting : MonoBehaviour
 
         podeAtirar = false;
 
-        // Instancia o projétil
-        Bullet bullet = Instantiate(currentGun.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.Euler(0, 0, gunManager.GetFirePoint().eulerAngles.z));
-        bullet.Setup(gunManager.GetFirePoint().right, currentGun.damage);
+        Bullet bullet = Instantiate(currentGun.data.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.Euler(0, 0, gunManager.GetFirePoint().eulerAngles.z));
+        bullet.Setup(gunManager.GetFirePoint().right, currentGun.data.damage);
 
-        // Som
         gunManager.PlayFireSound();
 
-        // Consome munição
         currentGun.ammo--;
 
-        // Verifica se acabou a munição
         if (currentGun.ammo <= 0)
         {
             Debug.Log("Munição esgotada. Trocando para arma padrão.");
             gunManager.EquipDefaultGun();
         }
 
-        yield return new WaitForSeconds(currentGun.fireRate);
+        yield return new WaitForSeconds(currentGun.data.fireRate);
         podeAtirar = true;
     }
 
-    public void UpdateGun(GunData gunData)
+    public void UpdateGun(GunRuntime gun)
     {
-        currentGun = gunData;
+        currentGun = gun;
     }
 }

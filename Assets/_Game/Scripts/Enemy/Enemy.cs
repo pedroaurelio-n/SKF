@@ -41,13 +41,15 @@ public class Enemy : MonoBehaviour
     {
         health.Reset();
     }
-    
-    void Die ()
+
+    void Die()
     {
         OnDeath?.Invoke();
+        EnemyKillTracker.Instance?.RegisterKill();
         gameObject.SetActive(false);
     }
-    
+
+
     void StartDamageFlash (int current, int max, Vector3 direction)
     {
         if (_isFlashing)

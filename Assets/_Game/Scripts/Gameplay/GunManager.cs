@@ -7,14 +7,19 @@ public class GunManager : MonoBehaviour
     [SerializeField] private Transform firePoint;
 
     private GunShooting gunShooting;
-    private GunData currentGunInstance;
     private AudioSource audioSource;
+
+    private GunRuntime currentGun;
+    public GunData smgData;
+    public GunData shotgunData;
+
+    public GunRuntime CurrentGun => currentGun;
 
     void Awake()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        audioSource.spatialBlend = 0f; // 2D sound
+        audioSource.spatialBlend = 0f;
     }
 
     void Start()
@@ -23,13 +28,11 @@ public class GunManager : MonoBehaviour
         EquipGun(defaultGun);
     }
 
-    public Transform GetFirePoint() => firePoint;
-
     public void EquipGun(GunData newGun)
     {
-        currentGunInstance = Instantiate(newGun); // cria uma cópia independente
-        gunSpriteRenderer.sprite = currentGunInstance.gunSprite;
-        gunShooting.UpdateGun(currentGunInstance);
+        currentGun = new GunRuntime(newGun);
+        gunSpriteRenderer.sprite = newGun.gunSprite;
+        gunShooting.UpdateGun(currentGun);
     }
 
     public void EquipDefaultGun()
@@ -37,15 +40,14 @@ public class GunManager : MonoBehaviour
         EquipGun(defaultGun);
     }
 
+    public Transform GetFirePoint() => firePoint;
+
     public void PlayFireSound()
     {
-        if (currentGunInstance.fireSound != null)
+        if (currentGun?.data.fireSound != null)
         {
-            audioSource.pitch = currentGunInstance.firePitch;
-            audioSource.PlayOneShot(
-                currentGunInstance.fireSound,
-                currentGunInstance.fireVolume
-            );
+            audioSource.pitch = currentGun.data.firePitch;
+            audioSource.PlayOneShot(currentGun.data.fireSound, currentGun.data.fireVolume);
         }
     }
 }

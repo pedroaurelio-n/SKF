@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0827cb887a72874daaf67a1c220404f, type: 3}
   m_Name: PISTOLA
   m_EditorClassIdentifier: 
-  weaponName: 
+  weaponName: Pistola
   gunSprite: {fileID: 659116083, guid: 751264a2ad42345669c0917f90f29199, type: 3}
+  hudSprite: {fileID: 413024057, guid: d1b4b5b2346d3a945b814a0ab5cf0beb, type: 3}
   bulletPrefab: {fileID: 4117034371073466114, guid: d592eabef3e1fb44ea77b0ad539d2dd5, type: 3}
   fireRate: 0.5
   ammo: 99999
   damage: 1
   fireSound: {fileID: 8300000, guid: 7115c104cf3981b4b8fc3386aafcd11d, type: 3}
-  fireVolume: 0.2
+  fireVolume: 0.251
   firePitch: 1
