@@ -19,7 +19,15 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Aqui você pode aplicar o dano se o alvo tiver um script de vida
+        // Tenta pegar o BossHealth (ou outro script de vida)
+        if (other.TryGetComponent<BossHealth>(out BossHealth boss))
+        {
+            boss.TakeDamage(damage);
+        }
+
+        // Você pode adicionar aqui verificação para outros inimigos, se quiser
+        // if (other.TryGetComponent<EnemyHealth>(out var enemy)) enemy.TakeDamage(damage);
+
         Destroy(gameObject);
     }
 }
