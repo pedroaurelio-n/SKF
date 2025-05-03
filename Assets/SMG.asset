@@ -19,6 +19,6 @@ MonoBehaviour:
   fireRate: 0.1
   ammo: 50
   damage: 1
-  fireSound: {fileID: 8300000, guid: 445094053d5b3c149afceedcf3fb8faa, type: 3}
+  fireSound: {fileID: 8300000, guid: 7010761bbd5d847468d4c3174d731420, type: 3}
   fireVolume: 0.2
-  firePitch: 2.5
+  firePitch: 1

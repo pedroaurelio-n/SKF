@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class WeaponHUD : MonoBehaviour
 {
@@ -20,8 +21,9 @@ public class WeaponHUD : MonoBehaviour
     private readonly Vector3 bigScale = Vector3.one;
     private readonly Vector3 smallScale = Vector3.one;
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => gunManager.CurrentGun != null); // espera a arma ser equipada
         AddGunToHUD(gunManager.CurrentGun.data);
     }
 
@@ -41,6 +43,12 @@ public class WeaponHUD : MonoBehaviour
 
         UpdateHUD();
     }
+
+    public void ForceUpdate()
+    {
+        UpdateHUD();
+    }
+
 
     private void AddGunToHUD(GunData newGun)
     {

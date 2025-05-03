@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        GetComponent<DropSpawner>()?.TrySpawnDrop(); // <- chama o spawner
         OnDeath?.Invoke();
         EnemyKillTracker.Instance?.RegisterKill();
         gameObject.SetActive(false);

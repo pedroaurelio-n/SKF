@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 8885613245083179137}
   - component: {fileID: 8586974543776293535}
   - component: {fileID: 7826218430946208925}
+  - component: {fileID: -5307677583013439657}
   m_Layer: 8
   m_Name: Enemy1
   m_TagString: Enemy
@@ -256,6 +257,7 @@ MonoBehaviour:
   jumpPostGroundingGraceTime: 0.2
   maxWallSlideSpeed: -0.5
   defaultGravity: {x: 0, y: -50, z: 0}
+  isPlayer: 0
 --- !u!114 &7826218430946208925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +300,26 @@ MonoBehaviour:
   CheckMovementInitialOverlaps: 1
   KillVelocityWhenExceedMaxMovementIterations: 1
   KillRemainingMovementWhenExceedMaxMovementIterations: 1
+--- !u!114 &-5307677583013439657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859646201793995520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167ebfa264234934aa678cacf619dd5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleDrops:
+  - prefab: {fileID: 4549114692970258462, guid: 7621208064a2d224aa1ef74bc298ea6f, type: 3}
+    dropChance: 30
+  - prefab: {fileID: 6265531087742315398, guid: 4c7f88828041fd4459140bd1593b1172, type: 3}
+    dropChance: 10
+  - prefab: {fileID: 4875075376732780805, guid: 3040d86f4570a194482e0dd929c468cf, type: 3}
+    dropChance: 5
+  dropOffsetY: 0.5
 --- !u!1 &5096512461365664666
 GameObject:
   m_ObjectHideFlags: 0

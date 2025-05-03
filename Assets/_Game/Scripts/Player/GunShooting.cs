@@ -45,10 +45,16 @@ public class GunShooting : MonoBehaviour
 
         yield return new WaitForSeconds(currentGun.data.fireRate);
         podeAtirar = true;
+
+        FindObjectOfType<WeaponHUD>()?.SendMessage("UpdateHUD");
+
+
+
     }
 
     public void UpdateGun(GunRuntime gun)
     {
         currentGun = gun;
     }
+
 }
