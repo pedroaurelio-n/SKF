@@ -25,6 +25,16 @@ public class BossController : MonoBehaviour
         StartCoroutine(BossRoutine());
     }
 
+    public void BeginFight()
+    {
+        // Ativa scripts de ataque e HUD
+        isAlive = true;
+        currentHealth = maxHealth;
+        bossHealthBar.SetMaxHealth(maxHealth);
+        bossHealthBar.gameObject.SetActive(true);
+        StartCoroutine(BossRoutine());
+    }
+
     public void TakeDamage(int amount)
     {
         if (!isAlive) return;
