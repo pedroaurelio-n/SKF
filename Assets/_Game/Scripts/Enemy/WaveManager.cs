@@ -7,7 +7,7 @@ using UnityEngine;
 public class SceneTransitionManager : MonoBehaviour
 {
     [Header("Referências")]
-    [SerializeField] private WaveManager waveManager;
+    //[SerializeField] private WaveManager waveManager;
     [SerializeField] private BossController bossController;   // seu script de boss
     [SerializeField] private Transform player;
     [SerializeField] private Camera mainCamera;
@@ -23,12 +23,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.AllWavesDefeated += OnAllWavesDefeated;
+        //EventManager.AllWavesDefeated += OnAllWavesDefeated;
     }
 
     void OnDisable()
     {
-        EventManager.AllWavesDefeated -= OnAllWavesDefeated;
+        //EventManager.AllWavesDefeated -= OnAllWavesDefeated;
     }
 
     private void OnAllWavesDefeated()
