@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1091788520535508556}
   - component: {fileID: 3653185364513608037}
   - component: {fileID: 8582778158535308235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,6 +72,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damage: 1
+  useTrigger: 1
 --- !u!1 &4859646201793995520
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,8 +91,6 @@ GameObject:
   - component: {fileID: 8586974543776293535}
   - component: {fileID: 7826218430946208925}
   - component: {fileID: -4688003815287631703}
-  - component: {fileID: -8521675394132310417}
-  - component: {fileID: 5084943077526287669}
   m_Layer: 8
   m_Name: Enemy3
   m_TagString: Enemy
@@ -322,41 +321,6 @@ MonoBehaviour:
   - prefab: {fileID: 4875075376732780805, guid: 3040d86f4570a194482e0dd929c468cf, type: 3}
     dropChance: 10
   dropOffsetY: 0.5
---- !u!114 &-8521675394132310417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4859646201793995520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebeb2e753439b34489e976f3e631b5d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  useTrigger: 1
---- !u!65 &5084943077526287669
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4859646201793995520}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5096512461365664666
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,11 +44,11 @@ public static class EventManager
 
     internal static void TriggerPlayerHealthChanged(int current, int max)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     internal static void TriggerPlayerDeath()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }
