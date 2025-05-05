@@ -72,6 +72,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   damage: 1
+  useTrigger: 1
 --- !u!1 &4859646201793995520
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +91,8 @@ GameObject:
   - component: {fileID: 8586974543776293535}
   - component: {fileID: 7826218430946208925}
   - component: {fileID: -5307677583013439657}
+  - component: {fileID: -1797478673126447777}
+  - component: {fileID: -1160534507445443790}
   m_Layer: 8
   m_Name: Enemy1
   m_TagString: Enemy
@@ -320,6 +323,41 @@ MonoBehaviour:
   - prefab: {fileID: 4875075376732780805, guid: 3040d86f4570a194482e0dd929c468cf, type: 3}
     dropChance: 5
   dropOffsetY: 0.5
+--- !u!114 &-1797478673126447777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859646201793995520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebeb2e753439b34489e976f3e631b5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  useTrigger: 1
+--- !u!65 &-1160534507445443790
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859646201793995520}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5096512461365664666
 GameObject:
   m_ObjectHideFlags: 0

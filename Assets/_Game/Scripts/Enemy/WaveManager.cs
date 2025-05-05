@@ -1,80 +1,92 @@
-//SceneTransitionManager.cs
-using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class SceneTransitionManager : MonoBehaviour
+public class WaveManager : MonoBehaviour
 {
-    [Header("Referências")]
-    //[SerializeField] private WaveManager waveManager;
-    [SerializeField] private BossController bossController;   // seu script de boss
-    [SerializeField] private Transform player;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Collider[] sceneColliders;       // coliders do cenário que devem “cair”
-    [SerializeField] private float cameraShakeDuration = 1f;
-    [SerializeField] private float cameraShakeMagnitude = 0.1f;
-    [SerializeField] private int shakeVibrato = 10;
-    [SerializeField] private float dropDelay = 0.5f;          // tempo até o cenário começar a “cair”
-    [SerializeField] private float fightStartYOffset = -5f;   // distância do player ao boss para ativar a luta
+    [SerializeField] List<WaveConfig> waveConfigs;
+    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] float delayBetweenWaves;
 
-    private bool transitioning = false;
-    private Vector3 camOriginalPos;
+    List<Enemy> _activeEnemies = new();
+    int _currentWaveIndex;
+    bool _waveInProgress;
 
-    void OnEnable()
+    void Start()
     {
-        //EventManager.AllWavesDefeated += OnAllWavesDefeated;
+        StartCoroutine(RunWaves());
     }
 
-    void OnDisable()
+    IEnumerator RunWaves()
     {
-        //EventManager.AllWavesDefeated -= OnAllWavesDefeated;
-    }
+        yield return new WaitForSeconds(delayBetweenWaves);
 
-    private void OnAllWavesDefeated()
-    {
-        if (!transitioning)
-            StartCoroutine(DoTransition());
-    }
-
-    private IEnumerator DoTransition()
-    {
-        transitioning = true;
-
-        // 1) Camera shake rápido
-        camOriginalPos = mainCamera.transform.position;
-        float elapsed = 0f;
-        while (elapsed < cameraShakeDuration)
+        while (_currentWaveIndex < waveConfigs.Count)
         {
-            float x = Random.Range(-1f, 1f) * cameraShakeMagnitude;
-            float y = Random.Range(-1f, 1f) * cameraShakeMagnitude;
-            mainCamera.transform.position = camOriginalPos + new Vector3(x, y, 0);
-            elapsed += Time.deltaTime;
-            yield return null;
+            _waveInProgress = true;
+            WaveConfig wave = waveConfigs[_currentWaveIndex];
+
+            EventManager.TriggerWaveStarted(_currentWaveIndex + 1, waveConfigs.Count);
+
+            yield return StartCoroutine(HandleWave(wave));
+
+            EventManager.TriggerWaveDefeated(_currentWaveIndex + 1);
+            _currentWaveIndex++;
+
+            if (_currentWaveIndex < waveConfigs.Count)
+                yield return new WaitForSeconds(delayBetweenWaves);
         }
-        mainCamera.transform.position = camOriginalPos;
 
-        // 2) Pequena espera
-        yield return new WaitForSeconds(dropDelay);
+        EventManager.TriggerAllWavesDefeated();
+    }
 
-        // 3) Desativa colliders do cenário (eles continuam com RigidBody para cair)
-        foreach (var col in sceneColliders)
+    IEnumerator HandleWave(WaveConfig wave)
+    {
+        // Build full enemy pool
+        List<Enemy> enemyPool = new();
+        foreach (WaveConfig.EnemyGroup group in wave.EnemyGroups)
         {
-            if (col.attachedRigidbody == null)
+            for (int i = 0; i < group.TotalCount; i++)
+                enemyPool.Add(group.EnemyPrefab);
+        }
+
+        System.Random rng = new(); // C# System RNG for better randomness than UnityEngine.Random
+        while (enemyPool.Count > 0)
+        {
+            int spawnCount = rng.Next(wave.TotalSpawnRange.x, wave.TotalSpawnRange.y + 1);
+            spawnCount = Mathf.Min(spawnCount, enemyPool.Count); // Clamp to pool size
+
+            for (int i = 0; i < spawnCount; i++)
             {
-                var rb = col.gameObject.AddComponent<Rigidbody>();
-                rb.useGravity = true;
+                int index = rng.Next(0, enemyPool.Count);
+                Enemy prefab = enemyPool[index];
+                enemyPool.RemoveAt(index);
+
+                SpawnEnemy(prefab);
+                yield return new WaitForSeconds(0.2f); // Optional: staggered spawns
             }
-            col.enabled = false;
+
+            // Wait until all spawned enemies are dead
+            yield return new WaitUntil(() => _activeEnemies.Count == 0);
+            _waveInProgress = false;
+
+            yield return new WaitForSeconds(delayBetweenWaves * 0.5f);
         }
+    }
 
-        // 4) Aguarda até o player cair perto do boss
-        Vector3 bossPos = bossController.transform.position;
-        while (player.position.y - bossPos.y > fightStartYOffset)
-            yield return null;
+    void SpawnEnemy(Enemy prefab)
+    {
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        _activeEnemies.Add(enemy);
 
-        // 5) Inicia a luta: ativa o boss e sua HUD
-        bossController.gameObject.SetActive(true);
-        bossController.BeginFight();      // método que você deve expor pra começar o ciclo
+        if (enemy != null)
+            enemy.OnDeath += () => OnEnemyDeath(enemy);
+    }
+
+    void OnEnemyDeath(Enemy enemy)
+    {
+        _activeEnemies.Remove(enemy);
     }
 }

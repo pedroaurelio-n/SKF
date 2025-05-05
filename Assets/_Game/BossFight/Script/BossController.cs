@@ -10,7 +10,8 @@ public class BossController : MonoBehaviour
     private int currentHealth;
 
     [Header("Referência para HUD")]
-    public BossHealth bossHealthBar;
+    [SerializeField] private BossHealth bossHealthBar;
+    [SerializeField] private BossHUD bossHUD;
 
     [Header("Eventos")]
     public UnityEvent onBossDeath;
@@ -27,13 +28,21 @@ public class BossController : MonoBehaviour
 
     public void BeginFight()
     {
-        // Ativa scripts de ataque e HUD
-        isAlive = true;
-        currentHealth = maxHealth;
-        bossHealthBar.SetMaxHealth(maxHealth);
+        // Ativa e configura HUD de vida
         bossHealthBar.gameObject.SetActive(true);
+        bossHealthBar.SetMaxHealth(maxHealth);
+
+        // Reinicia valores internos
+        currentHealth = maxHealth;
+        isAlive = true;
+
+        // Dispara o evento para a HUD
+        EventManager.TriggerBossFightStarted();
+
+        // Inicia rotina de ataque
         StartCoroutine(BossRoutine());
     }
+
 
     public void TakeDamage(int amount)
     {
@@ -52,9 +61,8 @@ public class BossController : MonoBehaviour
     {
         isAlive = false;
         StopAllCoroutines();
-        onBossDeath?.Invoke();
-        // Aqui você pode adicionar animação de morte ou efeitos
-        Debug.Log("Boss morreu!");
+        EventManager.TriggerBossDefeated();
+        // animação de morte...
     }
 
     private IEnumerator BossRoutine()

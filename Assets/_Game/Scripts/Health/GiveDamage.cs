@@ -1,40 +1,41 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class GiveDamage : MonoBehaviour
 {
-    [SerializeField] LayerMask damageableLayers;
-    [SerializeField] int damage;
+    [Tooltip("Em quais layers o dano deve ser aplicado")]
+    [SerializeField] private LayerMask damageableLayers;
+    [Tooltip("Quantidade de vida a diminuir")]
+    [SerializeField] private int damage = 1;
+    [Tooltip("Usar trigger ao invés de colisão física")]
+    [SerializeField] private bool useTrigger = true;
 
-    void OnTriggerEnter (Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!IsInDamageableLayer(other.gameObject))
-            return;
-        
-        if (!other.TryGetComponent<Health>(out Health health))
-            return;
-        
-        ModifyHealth(health);
+        if (!useTrigger) return;
+        TryDamage(other);
     }
 
-    void OnCollisionEnter (Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!IsInDamageableLayer(other.gameObject))
-            return;
-        
-        if (!other.gameObject.TryGetComponent<Health>(out Health health))
-            return;
-        
-        ModifyHealth(health);
+        if (useTrigger) return;
+        TryDamage(collision.collider);
     }
 
-    void ModifyHealth (Health health)
+    private void TryDamage(Collider other)
     {
-        Vector3 direction = health.gameObject.transform.position - transform.position;
-        health.ModifyHealth(-damage, direction.normalized);
-    }
-    
-    bool IsInDamageableLayer(GameObject obj)
-    {
-        return (damageableLayers.value & (1 << obj.layer)) != 0;
+        // Só aplica em objetos que estejam na Layer correta
+        if ((damageableLayers.value & (1 << other.gameObject.layer)) == 0)
+            return;
+
+        // Só aplica se tiver um Health
+        if (!other.TryGetComponent<Health>(out var health))
+            return;
+
+        // Direção de knockback: do ponto de colisão para o centro do player/enemy
+        Vector3 hitDirection = (other.transform.position - transform.position).normalized;
+        Debug.Log($"[GiveDamage] Aplicando {damage} de dano em {other.name}");
+
+        health.ModifyHealth(-damage, hitDirection);
     }
 }

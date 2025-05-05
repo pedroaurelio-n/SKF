@@ -39,7 +39,6 @@ public class Player : MonoBehaviour
     void PlayerDamaged (int current, int max, Vector3 direction)
     {
         EventManager.TriggerPlayerHealthChanged(current, max);
-        CharacterController.AddVelocity(direction * knockBackForce);
     }
 
     void Die ()

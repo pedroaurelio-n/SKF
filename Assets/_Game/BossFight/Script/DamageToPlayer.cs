@@ -1,37 +1,43 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class DamageToPlayer : MonoBehaviour
 {
+    [Tooltip("Quanto de vida tirar do player")]
     [SerializeField] private int damage = 1;
-    [SerializeField] private bool isTrigger = true;
+
+    [Tooltip("Se true usa OnTriggerEnter, caso contrário usa OnCollisionEnter")]
+    [SerializeField] private bool useTrigger = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isTrigger) return;
-
-        if (other.CompareTag("Player"))
-        {
-            Health playerHealth = other.GetComponent<Health>();
-            if (playerHealth != null)
-            {
-                Vector3 hitDirection = (other.transform.position - transform.position).normalized;
-                playerHealth.ModifyHealth(-damage, hitDirection);
-            }
-        }
+        if (!useTrigger) return;
+        TryDamage(other);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isTrigger) return;
+        if (useTrigger) return;
+        TryDamage(collision.collider);
+    }
 
-        if (collision.collider.CompareTag("Player"))
+    private void TryDamage(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        // Debug para ver quem estamos tocando
+        Debug.Log($"DamageToPlayer: Colidiu com {other.name}, causando {damage} de dano.");
+
+        Health playerHealth = other.GetComponent<Health>();
+        if (playerHealth != null)
         {
-            Health playerHealth = collision.collider.GetComponent<Health>();
-            if (playerHealth != null)
-            {
-                Vector3 hitDirection = (collision.transform.position - transform.position).normalized;
-                playerHealth.ModifyHealth(-damage, hitDirection);
-            }
+            // Direção de knockback: do inimigo para o player
+            Vector3 hitDirection = (other.transform.position - transform.position).normalized;
+            playerHealth.ModifyHealth(-damage, hitDirection);
+        }
+        else
+        {
+            Debug.LogWarning("DamageToPlayer: objeto com tag Player não possui componente Health!");
         }
     }
 }

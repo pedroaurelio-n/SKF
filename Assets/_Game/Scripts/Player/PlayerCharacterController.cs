@@ -295,7 +295,6 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         if (!Motor.GroundingStatus.IsStableOnGround && Mathf.Abs(hitNormal.x) > 0.3f)
         {
             _isWallSliding = true;
-            Debug.Log("Wall Slide ativado: hitNormal = " + hitNormal);
         }
     }
 
