@@ -6,6 +6,7 @@ public class GunShooting : MonoBehaviour
     private GunRuntime currentGun;
     private bool podeAtirar = true;
     private GunManager gunManager;
+    
 
     void Start()
     {

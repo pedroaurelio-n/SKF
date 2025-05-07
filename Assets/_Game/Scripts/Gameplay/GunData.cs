@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [CreateAssetMenu(fileName = "NewGun", menuName = "Guns/New Gun")]
 public class GunData : ScriptableObject
@@ -7,6 +8,8 @@ public class GunData : ScriptableObject
     public string weaponName;
     public Sprite gunSprite;     // Sprite da arma na mão do player
     public Sprite hudSprite;     // Sprite personalizada para a HUD
+    GunData _Gun;
+    Vector3 _initialScaled;
 
     [Header("Projétil")]
     public Bullet bulletPrefab;
