@@ -82,6 +82,16 @@ public class GunSystem : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.y = mirandoParaEsquerda ? -1 : 1;
         transform.localScale = scale;
+        // Vira o player conforme a direção da arma
+        if (dirArma.x < 0)
+        {
+            player.localScale = new Vector3(-Mathf.Abs(player.localScale.x), player.localScale.y, player.localScale.z);
+        }
+        else if (dirArma.x > 0)
+        {
+            player.localScale = new Vector3(Mathf.Abs(player.localScale.x), player.localScale.y, player.localScale.z);
+        }
+
     }
 
     public void UpdateSensitivity(float value)

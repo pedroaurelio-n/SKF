@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class OneWayPlatform3D : MonoBehaviour
 {
+    internal float heightTolerance;
+
     // private Collider platformCollider;
     //
     // void Awake()
@@ -31,4 +33,5 @@ public class OneWayPlatform3D : MonoBehaviour
     //         Physics.IgnoreCollision(other, platformCollider, false);
     //     }
     // }
+    public static bool IgnoreOneWayPlatformsThisFrame { get; internal set; }
 }

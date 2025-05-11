@@ -3,75 +3,59 @@ using UnityEngine;
 
 public class BossHandController : MonoBehaviour
 {
+    [Header("Referências")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private BossHealth bossHealth;
 
-    [Header("Laser")]
-    [SerializeField] private GameObject laserObject;
-    [SerializeField] private float laserDuration = 1.5f;
-
-    [Header("Referências das mãos")]
-    [SerializeField] private Transform leftHand;
-    [SerializeField] private Transform rightHand;
-
-    [Header("Pontos de movimento")]
-    [SerializeField] private Transform[] handPositions; // 5 posições
-
-    [Header("Configuração")]
-    [SerializeField] private float moveDuration = 0.5f;
-    [SerializeField] private float delayBetweenMoves = 0.3f;
-    [SerializeField] private int movementsPerCycle = 5;
-
-    private int currentMoveIndex = 0;
+    private int currentPhase = 1;
 
     void Start()
     {
-        StartCoroutine(RepeatHandCycle());
+        if (bossHealth != null)
+        {
+            bossHealth.OnHealthChanged += OnBossHealthChanged;
+        }
+
+        PlayCurrentPhaseAnimation();
     }
 
-    IEnumerator RepeatHandCycle()
+    private void OnDestroy()
     {
-        while (true)
+        if (bossHealth != null)
         {
-            for (int i = 0; i < movementsPerCycle; i++)
-            {
-                Vector3 targetPos = handPositions[currentMoveIndex].position;
-
-                StartCoroutine(MoveHandToPosition(leftHand, targetPos));
-                StartCoroutine(MoveHandToPosition(rightHand, targetPos));
-
-                currentMoveIndex = (currentMoveIndex + 1) % handPositions.Length;
-
-                yield return new WaitForSeconds(moveDuration + delayBetweenMoves);
-            }
-
-            yield return StartCoroutine(LaserAttack());
+            bossHealth.OnHealthChanged -= OnBossHealthChanged;
         }
     }
 
-    IEnumerator LaserAttack()
+    private void OnBossHealthChanged(float currentHealth, float maxHealth)
     {
-        // Ativa o laser visualmente
-        laserObject.SetActive(true);
+        float healthPercent = (currentHealth / maxHealth) * 100f;
 
-        // Você pode colocar aqui uma animação de carga ou som se quiser
-        yield return new WaitForSeconds(laserDuration);
-
-        // Desativa o laser
-        laserObject.SetActive(false);
+        if (healthPercent <= 10f && currentPhase != 3)
+        {
+            currentPhase = 3;
+            PlayCurrentPhaseAnimation();
+        }
+        else if (healthPercent <= 50f && currentPhase == 1)
+        {
+            currentPhase = 2;
+            PlayCurrentPhaseAnimation();
+        }
     }
 
-
-    IEnumerator MoveHandToPosition(Transform hand, Vector3 target)
+    private void PlayCurrentPhaseAnimation()
     {
-        Vector3 start = hand.position;
-        float elapsed = 0;
-
-        while (elapsed < moveDuration)
+        switch (currentPhase)
         {
-            hand.position = Vector3.Lerp(start, target, elapsed / moveDuration);
-            elapsed += Time.deltaTime;
-            yield return null;
+            case 1:
+                animator.Play("Phase1Attack"); // Nome da animação que você criará
+                break;
+            case 2:
+                animator.Play("Phase2Attack");
+                break;
+            case 3:
+                animator.Play("Phase3Attack");
+                break;
         }
-
-        hand.position = target;
     }
 }

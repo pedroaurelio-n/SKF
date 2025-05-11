@@ -4,16 +4,20 @@ using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
 {
-    [Header("Vida do Boss")]
     public float maxHealth = 1000f;
     private float currentHealth;
 
-    [Header("Referência da Barra de Vida")]
     [SerializeField] private Slider healthSlider;
+
+    public event Action<float, float> OnHealthChanged;
 
     void Start()
     {
         currentHealth = maxHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.interactable = false;
+        }
         UpdateHealthUI();
     }
 
@@ -22,6 +26,8 @@ public class BossHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0);
         UpdateHealthUI();
+
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
@@ -41,7 +47,6 @@ public class BossHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Boss morreu!");
-        // Aqui você pode colocar animações, desativar o boss, tocar som, etc.
         Destroy(gameObject);
     }
 
