@@ -6,7 +6,7 @@ public class GunShooting : MonoBehaviour
     private GunRuntime currentGun;
     private bool podeAtirar = true;
     private GunManager gunManager;
-    
+    public Animator anim; // Animator to control animations
 
     void Start()
     {
@@ -17,7 +17,12 @@ public class GunShooting : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && podeAtirar && currentGun != null && currentGun.ammo > 0)
         {
+            anim.SetBool("IsShooting", true); // Activate shooting animation
             StartCoroutine(Atirar());
+        }
+        else
+        {
+            anim.SetBool("IsShooting", false); // Deactivate shooting animation
         }
     }
 
@@ -48,14 +53,10 @@ public class GunShooting : MonoBehaviour
         podeAtirar = true;
 
         FindObjectOfType<WeaponHUD>()?.SendMessage("UpdateHUD");
-
-
-
     }
 
     public void UpdateGun(GunRuntime gun)
     {
         currentGun = gun;
     }
-
 }
