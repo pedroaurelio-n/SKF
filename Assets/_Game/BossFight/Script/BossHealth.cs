@@ -8,55 +8,78 @@ public class BossHealth : MonoBehaviour
     private float currentHealth;
 
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Animator animator;
 
     public event Action<float, float> OnHealthChanged;
 
+    private bool isDead = false;
+
     void Start()
     {
-        currentHealth = maxHealth;
-        if (healthSlider != null)
-        {
-            healthSlider.interactable = false;
-        }
-        UpdateHealthUI();
+        // Inicializa a vida
+        SetMaxHealth((int)maxHealth);
     }
 
     public void TakeDamage(float damage)
     {
+        if (isDead) return;
+
         currentHealth -= damage;
-        currentHealth = Mathf.Max(currentHealth, 0);
-        UpdateHealthUI();
-
-        OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        SetHealth((int)currentHealth);
     }
 
-    private void UpdateHealthUI()
+    // Atualiza o valor máximo da barra e reseta vida
+    public void SetMaxHealth(int max)
     {
+        maxHealth = max;
+        currentHealth = maxHealth;
+
         if (healthSlider != null)
         {
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
+            healthSlider.interactable = false;
         }
+    }
+
+    // Atualiza valor atual da barra e dispara eventos/morte
+    public void SetHealth(int health)
+    {
+        if (isDead) return;
+
+        currentHealth = Mathf.Clamp(health, 0, maxHealth);
+
+        if (healthSlider != null)
+            healthSlider.value = currentHealth;
+
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
+            Die();
     }
 
     private void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         Debug.Log("Boss morreu!");
-        Destroy(gameObject);
-    }
 
-    internal void SetMaxHealth(int maxHealth)
-    {
-        throw new NotImplementedException();
-    }
+        // Toca animação de morte
+        if (animator == null)
+            animator = GetComponent<Animator>();
+        if (animator != null)
+            animator.SetTrigger("Death");
 
-    internal void SetHealth(int currentHealth)
-    {
-        throw new NotImplementedException();
+        // Desativa demais componentes (IA, controle de movimento, etc.)
+        foreach (var comp in GetComponents<MonoBehaviour>())
+        {
+            if (comp != this) comp.enabled = false;
+        }
+
+        // Opcional: desativa colisores
+        var collider = GetComponent<Collider2D>();
+        if (collider != null)
+            collider.enabled = false;
     }
 }
