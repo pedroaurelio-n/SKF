@@ -39,6 +39,24 @@ public class ScreenTransitionManager : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reatribui referências, se existirem na nova cena
+        loadingMessage = GameObject.FindWithTag("LoadingText")?.GetComponent<TextMeshProUGUI>();
+        loadingSlider = GameObject.FindWithTag("LoadingSlider")?.GetComponent<Slider>();
+        loadingUI = GameObject.FindWithTag("LoadingUI");
+    }
+
     public void ChangeScene(string sceneName)
     {
         if (_isFading)
@@ -59,17 +77,21 @@ public class ScreenTransitionManager : MonoBehaviour
         yield return fadeCanvas.DOFade(1f, fadeDuration).WaitForCompletion();
 
         // Mostra loading
-        loadingUI.SetActive(true);
-        loadingMessage.text = "";
+        loadingUI?.SetActive(true);
+        if (loadingMessage != null)
+            loadingMessage.text = "";
 
         // Frase aparecendo palavra por palavra
-        string[] words = frase.Split(' ');
-        foreach (string word in words)
+        if (loadingMessage != null)
         {
-            loadingMessage.text += word + " ";
-            loadingMessage.DOFade(0f, 0f);
-            loadingMessage.DOFade(1f, 0.3f);
-            yield return new WaitForSeconds(wordDelay);
+            string[] words = frase.Split(' ');
+            foreach (string word in words)
+            {
+                loadingMessage.text += word + " ";
+                loadingMessage.DOFade(0f, 0f);
+                loadingMessage.DOFade(1f, 0.3f);
+                yield return new WaitForSeconds(wordDelay);
+            }
         }
 
         // Inicia carregamento da cena
