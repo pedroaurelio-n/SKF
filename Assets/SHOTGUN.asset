@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: SHOOTGUN
   gunSprite: {fileID: 1035609170, guid: 751264a2ad42345669c0917f90f29199, type: 3}
-  hudSprite: {fileID: 1422383420, guid: d1b4b5b2346d3a945b814a0ab5cf0beb, type: 3}
+  hudSprite: {fileID: 484045707, guid: 9295be21784c636489145d09f67968d0, type: 3}
   bulletPrefab: {fileID: 4117034371073466114, guid: 6e8a834536bba5044bc925da4e2601a1, type: 3}
   fireRate: 1
   ammo: 15
