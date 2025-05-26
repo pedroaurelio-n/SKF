@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 [CreateAssetMenu(fileName = "NewGun", menuName = "Guns/New Gun")]
 public class GunData : ScriptableObject

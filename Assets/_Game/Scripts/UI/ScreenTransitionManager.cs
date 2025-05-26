@@ -77,7 +77,9 @@ public class ScreenTransitionManager : MonoBehaviour
         yield return fadeCanvas.DOFade(1f, fadeDuration).WaitForCompletion();
 
         // Mostra loading
-        loadingUI?.SetActive(true);
+        if (loadingUI != null)
+            loadingUI.SetActive(true);
+
         if (loadingMessage != null)
             loadingMessage.text = "";
 

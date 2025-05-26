@@ -49,6 +49,6 @@ public static class EventManager
 
     internal static void TriggerPlayerDeath()
     {
-        //throw new NotImplementedException();
+        OnPlayerDeath?.Invoke();
     }
 }
