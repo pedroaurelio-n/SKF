@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,16 +11,40 @@ public class Player : MonoBehaviour
     
     [SerializeField] Health health;
     [SerializeField] GameObject mainSprite;
+    [SerializeField] Transform gun;
     
     SpriteRenderer[] sprites;
 
     [SerializeField] float knockBackForce;
     bool _isIntangible;
+    Vector3 _initialScale;
 
     private void Awake()
     {
         Instance = this;
         sprites = mainSprite.GetComponentsInChildren<SpriteRenderer>();
+        _initialScale = Animator.transform.localScale;
+    }
+
+    private void Update()
+    {
+        if (CharacterController.Motor.Velocity != Vector3.zero)
+        {
+            float aimDirection = transform.position.x - gun.position.x;
+            float movementDirection = CharacterController.Motor.Velocity.x;
+            
+            Animator.SetBool("IsBackwards",
+                Mathf.Approximately(Mathf.Sign(aimDirection), Mathf.Sign(movementDirection)));
+        }
+        
+        if (transform.position.x < gun.position.x)
+        {
+            Animator.transform.localScale = new Vector3(_initialScale.x, _initialScale.y, _initialScale.z);
+        }
+        else if (transform.position.x > gun.position.x)
+        {
+            Animator.transform.localScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
+        }
     }
 
     void OnEnable ()

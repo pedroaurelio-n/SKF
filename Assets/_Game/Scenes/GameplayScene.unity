@@ -661,6 +661,7 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 883522363}
   health: {fileID: 49256489}
   mainSprite: {fileID: 883522362}
+  gun: {fileID: 947187583}
   knockBackForce: 20
 --- !u!54 &49256491
 Rigidbody:
