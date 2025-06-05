@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GunShooting : MonoBehaviour
 {
+    [SerializeField] Player player;
     private GunRuntime currentGun;
     private bool podeAtirar = true;
     private GunManager gunManager;
@@ -15,7 +16,7 @@ public class GunShooting : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && podeAtirar && currentGun != null && currentGun.currentAmmo > 0)
+        if (player.InputHandler.IsShooting && podeAtirar && currentGun != null && currentGun.currentAmmo > 0)
         {
             anim.SetBool("IsShooting", true); // Activate shooting animation
             StartCoroutine(Atirar());

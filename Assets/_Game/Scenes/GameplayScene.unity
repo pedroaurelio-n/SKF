@@ -683,6 +683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CharacterController>k__BackingField: {fileID: 49256487}
   <Animator>k__BackingField: {fileID: 883522363}
+  <InputHandler>k__BackingField: {fileID: 1232391413}
   health: {fileID: 49256489}
   mainSprite: {fileID: 883522362}
   gun: {fileID: 947187583}
@@ -5057,7 +5058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb08197ea94d5d64698a101c3a1e5efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2008642103}
+  playerCenter: {fileID: 2008642103}
   distanceMin: 0.3
   distanceMax: 1
   baseSmoothMove: 10
@@ -5079,6 +5080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71692f5857bbca4a8965809f6d5f5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 49256490}
   anim: {fileID: 663562218}
 --- !u!114 &548267097
 MonoBehaviour:
@@ -11826,6 +11828,7 @@ GameObject:
   - component: {fileID: 1232391410}
   - component: {fileID: 1232391412}
   - component: {fileID: 1232391411}
+  - component: {fileID: 1232391413}
   m_Layer: 6
   m_Name: Input
   m_TagString: Untagged
@@ -11898,6 +11901,18 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 1411499753}
+--- !u!114 &1232391413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232391409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776af3015a91fa24eb87566e09cdb497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1242779843
 GameObject:
   m_ObjectHideFlags: 0
