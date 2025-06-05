@@ -10,6 +10,12 @@ public class GunManager : MonoBehaviour
     private AudioSource audioSource;
 
     private GunRuntime currentGun;
+
+    // Agora armazenamos as instâncias runtime
+    private GunRuntime defaultRuntime;
+    private GunRuntime smgRuntime;
+    private GunRuntime shotgunRuntime;
+
     public GunData smgData;
     public GunData shotgunData;
 
@@ -20,25 +26,35 @@ public class GunManager : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f;
+
+        // Instanciar todas as armas com base nos GunData
+        defaultRuntime = new GunRuntime(defaultGun);
+        smgRuntime = new GunRuntime(smgData);
+        shotgunRuntime = new GunRuntime(shotgunData);
     }
 
     void Start()
     {
         gunShooting = GetComponent<GunShooting>();
-        EquipGun(defaultGun);
+        EquipGun(defaultRuntime);
+    }
+
+    public void EquipGun(GunRuntime newGun)
+    {
+        currentGun = newGun;
+        gunSpriteRenderer.sprite = newGun.data.gunSprite;
+        gunShooting.UpdateGun(currentGun);
     }
 
     public void EquipGun(GunData newGun)
     {
-        currentGun = new GunRuntime(newGun);
-        gunSpriteRenderer.sprite = newGun.gunSprite;
-        gunShooting.UpdateGun(currentGun);
+        if (newGun == defaultGun) EquipGun(defaultRuntime);
+        else if (newGun == smgData) EquipGun(smgRuntime);
+        else if (newGun == shotgunData) EquipGun(shotgunRuntime);
+        else EquipGun(new GunRuntime(newGun)); // Fallback para armas novas
     }
 
-    public void EquipDefaultGun()
-    {
-        EquipGun(defaultGun);
-    }
+    public void EquipDefaultGun() => EquipGun(defaultRuntime);
 
     public Transform GetFirePoint() => firePoint;
 

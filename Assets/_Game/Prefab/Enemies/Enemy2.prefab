@@ -136,7 +136,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4859646201793995520}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4339cedae73144ba93bb403cb0e882f, type: 3}
   m_Name: 
@@ -320,6 +320,8 @@ MonoBehaviour:
     dropChance: 10
   - prefab: {fileID: 4875075376732780805, guid: 3040d86f4570a194482e0dd929c468cf, type: 3}
     dropChance: 5
+  - prefab: {fileID: 9063978807712891330, guid: a1d19e27a59f4654bb4f113f688f99a7, type: 3}
+    dropChance: 10
   dropOffsetY: 0.5
 --- !u!1 &5096512461365664666
 GameObject:

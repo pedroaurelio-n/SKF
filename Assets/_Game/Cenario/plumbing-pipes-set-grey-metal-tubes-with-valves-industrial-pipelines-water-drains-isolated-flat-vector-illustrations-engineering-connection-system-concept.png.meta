@@ -1,0 +1,457 @@
+fileFormatVersion: 2
+guid: 1db4d7e5a6ebe464f9dcfaee9ec56d94
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_0
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 836
+        width: 296
+        height: 251
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bffdc472c61ec8469be08de628800ae
+      internalID: -2126097334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_1
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 814
+        width: 316
+        height: 277
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d258eef285837be44a8b9936d7ccd3f6
+      internalID: 826682840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_2
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 753
+        width: 351
+        height: 364
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 698d4aed8ed1e9b4c845279890fa8e0d
+      internalID: -545955645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_3
+      rect:
+        serializedVersion: 2
+        x: 1171
+        y: 853
+        width: 422
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9bd72ef76202fe40926ade45e733eaa
+      internalID: 1132902907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_4
+      rect:
+        serializedVersion: 2
+        x: 1658
+        y: 827
+        width: 266
+        height: 308
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e372718755dd87e49912a0ee52f89835
+      internalID: 215409491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_5
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 559
+        width: 362
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cebd9721a9388954899212293b384ed7
+      internalID: -697220723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_6
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 393
+        width: 307
+        height: 317
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3f969db62c3cea47bd2c6e477271f01
+      internalID: 104901501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_7
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 399
+        width: 425
+        height: 312
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1cd9906f9c6ed84189ebfe7bef2fc5d
+      internalID: 1578975907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_8
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 594
+        width: 361
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96ed35bae7b0565499f7b175aa6d1980
+      internalID: 490007444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_9
+      rect:
+        serializedVersion: 2
+        x: 1551
+        y: 337
+        width: 372
+        height: 429
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac2a1440a86490d458d89f540a13358f
+      internalID: 1662967785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 35
+        width: 287
+        height: 390
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1987bc81ad070ea4d85a95892e846428
+      internalID: 1479227580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_11
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 42
+        width: 186
+        height: 307
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01c885747d41b48419ab1cd0681866ac
+      internalID: 823509828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_12
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 33
+        width: 422
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e4c80b8d7293b040a5ce94f418aca85
+      internalID: 1586913509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_13
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 29
+        width: 224
+        height: 361
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cef1ab16bc1aa4d4b8bdfb207b4dc85e
+      internalID: -514131337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_14
+      rect:
+        serializedVersion: 2
+        x: 1513
+        y: 34
+        width: 422
+        height: 251
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9276d2f1e1340e64c94e7f0891e0ac8d
+      internalID: -143484050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_0: -2126097334
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_1: 826682840
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_10: 1479227580
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_11: 823509828
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_12: 1586913509
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_13: -514131337
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_14: -143484050
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_2: -545955645
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_3: 1132902907
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_4: 215409491
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_5: -697220723
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_6: 104901501
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_7: 1578975907
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_8: 490007444
+      plumbing-pipes-set-grey-metal-tubes-with-valves-industrial-pipelines-water-drains-isolated-flat-vector-illustrations-engineering-connection-system-concept_9: 1662967785
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
