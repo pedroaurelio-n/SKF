@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -29,5 +30,10 @@ public class Bullet : MonoBehaviour
         // if (other.TryGetComponent<EnemyHealth>(out var enemy)) enemy.TakeDamage(damage);
 
         Destroy(gameObject);
+    }
+
+    internal void SetDirection(Vector3 right)
+    {
+        throw new NotImplementedException();
     }
 }

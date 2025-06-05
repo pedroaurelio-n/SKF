@@ -7,8 +7,6 @@ public class GunData : ScriptableObject
     public string weaponName;
     public Sprite gunSprite;     // Sprite da arma na mão do player
     public Sprite hudSprite;     // Sprite personalizada para a HUD
-    GunData _Gun;
-    Vector3 _initialScaled;
 
     [Header("Projétil")]
     public Bullet bulletPrefab;
@@ -16,8 +14,11 @@ public class GunData : ScriptableObject
     [Header("Estatísticas de Tiro")]
     [Tooltip("Intervalo entre tiros, em segundos")]
     public float fireRate = 0.2f;
-    public int ammo = 10;
     public int damage = 1;
+
+    [Header("Munição")]
+    public int magazineSize = 10;        // Pente atual
+    public int maxReserveAmmo = 30;      // Máximo da reserva
 
     [Header("Áudio")]
     [Tooltip("Som a tocar a cada disparo")]

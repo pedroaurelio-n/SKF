@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GunManager : MonoBehaviour
@@ -11,10 +12,8 @@ public class GunManager : MonoBehaviour
 
     private GunRuntime currentGun;
 
-    // Agora armazenamos as instâncias runtime
-    private GunRuntime defaultRuntime;
-    private GunRuntime smgRuntime;
-    private GunRuntime shotgunRuntime;
+    // Mantemos um dicionário para as instâncias únicas por arma
+    private Dictionary<GunData, GunRuntime> gunInstances = new Dictionary<GunData, GunRuntime>();
 
     public GunData smgData;
     public GunData shotgunData;
@@ -27,35 +26,60 @@ public class GunManager : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f;
 
-        // Instanciar todas as armas com base nos GunData
-        defaultRuntime = new GunRuntime(defaultGun);
-        smgRuntime = new GunRuntime(smgData);
-        shotgunRuntime = new GunRuntime(shotgunData);
+        // Inicializar a arma padrão no dicionário
+        gunInstances[defaultGun] = new GunRuntime(defaultGun);
     }
 
     void Start()
     {
         gunShooting = GetComponent<GunShooting>();
-        EquipGun(defaultRuntime);
-    }
-
-    public void EquipGun(GunRuntime newGun)
-    {
-        currentGun = newGun;
-        gunSpriteRenderer.sprite = newGun.data.gunSprite;
-        gunShooting.UpdateGun(currentGun);
+        EquipGun(defaultGun);
     }
 
     public void EquipGun(GunData newGun)
     {
-        if (newGun == defaultGun) EquipGun(defaultRuntime);
-        else if (newGun == smgData) EquipGun(smgRuntime);
-        else if (newGun == shotgunData) EquipGun(shotgunRuntime);
-        else EquipGun(new GunRuntime(newGun)); // Fallback para armas novas
+        // Se a arma já existe, só equipa
+        if (gunInstances.TryGetValue(newGun, out var runtime))
+        {
+            EquipGun(runtime);
+        }
+        else
+        {
+            // Se for nova, cria instância, adiciona e equipa
+            GunRuntime newRuntime = new GunRuntime(newGun);
+            gunInstances[newGun] = newRuntime;
+            EquipGun(newRuntime);
+        }
     }
 
-    public void EquipDefaultGun() => EquipGun(defaultRuntime);
+    // Recarrega a arma correspondente se já existe
+    public void CollectGun(GunData collectedGun)
+    {
+        if (gunInstances.TryGetValue(collectedGun, out var runtime))
+        {
+            // Recarrega apenas a arma do tipo correspondente
+            runtime.currentAmmo = collectedGun.magazineSize;
+            runtime.reserveAmmo = collectedGun.maxReserveAmmo;
+        }
+        else
+        {
+            // Cria nova instância com munição cheia
+            GunRuntime newRuntime = new GunRuntime(collectedGun);
+            gunInstances[collectedGun] = newRuntime;
+        }
 
+        // Equipa ao coletar
+        EquipGun(collectedGun);
+    }
+
+    private void EquipGun(GunRuntime runtimeToEquip)
+    {
+        currentGun = runtimeToEquip;
+        gunSpriteRenderer.sprite = currentGun.data.gunSprite;
+        gunShooting.UpdateGun(currentGun);
+    }
+
+    public void EquipDefaultGun() => EquipGun(defaultGun);
     public Transform GetFirePoint() => firePoint;
 
     public void PlayFireSound()

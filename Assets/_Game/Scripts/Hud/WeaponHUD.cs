@@ -94,7 +94,7 @@ public class WeaponHUD : MonoBehaviour
 
         if (gunManager.CurrentGun != null)
         {
-            int ammo = gunManager.CurrentGun.ammo;
+            int ammo = gunManager.CurrentGun.currentAmmo;
             ammoText.text = ammo > 0 ? ammo.ToString() : "∞";
         }
         else

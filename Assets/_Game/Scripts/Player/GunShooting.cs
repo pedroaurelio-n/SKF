@@ -15,7 +15,7 @@ public class GunShooting : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && podeAtirar && currentGun != null && currentGun.ammo > 0)
+        if (Input.GetMouseButton(0) && podeAtirar && currentGun != null && currentGun.currentAmmo > 0)
         {
             anim.SetBool("IsShooting", true); // Activate shooting animation
             StartCoroutine(Atirar());
@@ -36,14 +36,19 @@ public class GunShooting : MonoBehaviour
 
         podeAtirar = false;
 
-        Bullet bullet = Instantiate(currentGun.data.bulletPrefab, gunManager.GetFirePoint().position, Quaternion.Euler(0, 0, gunManager.GetFirePoint().eulerAngles.z));
+        // Instancia o projétil
+        Bullet bullet = Instantiate(
+            currentGun.data.bulletPrefab,
+            gunManager.GetFirePoint().position,
+            Quaternion.Euler(0, 0, gunManager.GetFirePoint().eulerAngles.z)
+        );
         bullet.Setup(gunManager.GetFirePoint().right, currentGun.data.damage);
 
         gunManager.PlayFireSound();
 
-        currentGun.ammo--;
+        currentGun.currentAmmo--;
 
-        if (currentGun.ammo <= 0)
+        if (currentGun.currentAmmo <= 0)
         {
             Debug.Log("Munição esgotada. Trocando para arma padrão.");
             gunManager.EquipDefaultGun();
