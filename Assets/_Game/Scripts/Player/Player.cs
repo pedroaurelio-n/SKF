@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     SpriteRenderer[] sprites;
 
     [SerializeField] float knockBackForce;
-    bool _isIntangible;
+    public bool IsIntangible { get; set; }
     Vector3 _initialScale;
 
     private void Awake()
@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
         Instance = this;
         sprites = mainSprite.GetComponentsInChildren<SpriteRenderer>();
         _initialScale = Animator.transform.localScale;
+        
+        IsIntangible = false;
     }
 
     private void Update()
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
         health.OnDamage += PlayerDamaged;
         health.OnDeath += Die;
         health.OnInvincibilityStart += StartInvincibilityFlash;
+        EventManager.OnBossDefeated += () => { IsIntangible = true; };
     }
 
     void OnDisable ()
@@ -78,11 +81,11 @@ public class Player : MonoBehaviour
 
     void StartInvincibilityFlash (float duration)
     {
-        if (_isIntangible)
+        if (IsIntangible)
             return;
         
-        _isIntangible = true;
-        IgnoreEnemyLayers(_isIntangible);
+        IsIntangible = true;
+        IgnoreEnemyLayers(IsIntangible);
         StartCoroutine(FlashRoutine(duration));
     }
 
@@ -105,10 +108,10 @@ public class Player : MonoBehaviour
             
             timer += flashSpeed * 2;
 
-            if (_isIntangible && timer >= duration * 0.8f)
+            if (IsIntangible && timer >= duration * 0.8f)
             {
-                _isIntangible = false;
-                IgnoreEnemyLayers(_isIntangible);
+                IsIntangible = false;
+                IgnoreEnemyLayers(IsIntangible);
             }
             yield return null;
         }

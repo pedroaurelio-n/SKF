@@ -9,6 +9,7 @@ public class BossHealth : MonoBehaviour
 
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Animator animator;
+    [SerializeField] GameEnd gameEnd;
 
     public event Action<float, float> OnHealthChanged;
 
@@ -28,7 +29,7 @@ public class BossHealth : MonoBehaviour
         SetHealth((int)currentHealth);
     }
 
-    // Atualiza o valor máximo da barra e reseta vida
+    // Atualiza o valor mï¿½ximo da barra e reseta vida
     public void SetMaxHealth(int max)
     {
         maxHealth = max;
@@ -62,24 +63,32 @@ public class BossHealth : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-
+        
         Debug.Log("Boss morreu!");
+        Invoke(nameof(EndGame), 3f);
 
-        // Toca animação de morte
+        // Toca animaï¿½ï¿½o de morte
         if (animator == null)
             animator = GetComponent<Animator>();
         if (animator != null)
             animator.SetTrigger("Death");
 
         // Desativa demais componentes (IA, controle de movimento, etc.)
-        foreach (var comp in GetComponents<MonoBehaviour>())
-        {
-            if (comp != this) comp.enabled = false;
-        }
+        // foreach (var comp in GetComponents<MonoBehaviour>())
+        // {
+        //     if (comp != this) comp.enabled = false;
+        // }
 
         // Opcional: desativa colisores
         var collider = GetComponent<Collider2D>();
         if (collider != null)
             collider.enabled = false;
+    }
+
+    void EndGame()
+    {
+        gameEnd.transform.parent.gameObject.SetActive(true);
+        gameEnd.gameObject.SetActive(true);
+        gameEnd.TriggerGameWin();
     }
 }

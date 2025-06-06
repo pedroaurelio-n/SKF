@@ -9,9 +9,11 @@ public class BossController : MonoBehaviour
     public int maxHealth = 1000;
     private int currentHealth;
 
-    [Header("Referência para HUD")]
+    [Header("Referï¿½ncia para HUD")]
     [SerializeField] private BossHealth bossHealthBar;
     [SerializeField] private BossHUD bossHUD;
+    [SerializeField] private GameEnd gameEnd;
+    [SerializeField] private GameObject staticCamera;
 
     [Header("Eventos")]
     public UnityEvent onBossDeath;
@@ -31,6 +33,8 @@ public class BossController : MonoBehaviour
         // Ativa e configura HUD de vida
         bossHealthBar.gameObject.SetActive(true);
         bossHealthBar.SetMaxHealth(maxHealth);
+        gameEnd.gameObject.SetActive(true);
+        staticCamera.gameObject.SetActive(true);
 
         // Reinicia valores internos
         currentHealth = maxHealth;
@@ -62,7 +66,7 @@ public class BossController : MonoBehaviour
         isAlive = false;
         StopAllCoroutines();
         EventManager.TriggerBossDefeated();
-        // animação de morte...
+        // animaï¿½ï¿½o de morte...
     }
 
     private IEnumerator BossRoutine()
@@ -75,15 +79,15 @@ public class BossController : MonoBehaviour
 
             for (int i = 0; i < 5; i++)
             {
-                // Aqui você chamaria o ataque da mão i (esquerda ou direita alternando por exemplo)
-                Debug.Log($"Ataque da mão {i + 1}");
+                // Aqui vocï¿½ chamaria o ataque da mï¿½o i (esquerda ou direita alternando por exemplo)
+                Debug.Log($"Ataque da mï¿½o {i + 1}");
                 // Simula o tempo de cada ataque
                 yield return new WaitForSeconds(1.5f);
             }
 
-            // Após os 5 ataques, dispara laser
+            // Apï¿½s os 5 ataques, dispara laser
             Debug.Log("Disparo de laser!");
-            // Chame aqui a função de laser se necessário
+            // Chame aqui a funï¿½ï¿½o de laser se necessï¿½rio
             yield return new WaitForSeconds(2f);
         }
     }
