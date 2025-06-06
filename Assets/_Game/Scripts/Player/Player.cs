@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
         while (timer < duration)
         {
             foreach (SpriteRenderer sprite in sprites)
-                sprite.color = Color.yellow;
+                sprite.color = Color.black;
             yield return waitForFlash;
 
             foreach (SpriteRenderer sprite in sprites)

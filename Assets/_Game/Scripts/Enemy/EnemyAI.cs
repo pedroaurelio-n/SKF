@@ -123,13 +123,7 @@ public class EnemyAI : MonoBehaviour
         weaponTransform.position = Vector2.Lerp(weaponTransform.position, targetPos, Time.deltaTime * smooth);
 
         bool facingLeft = player.position.x < transform.position.x;
-        Vector2 dirAdjusted = dir;
-        if (facingLeft)
-        {
-            dirAdjusted.x = -dirAdjusted.x;
-        }
-
-        float angle = Mathf.Atan2(dirAdjusted.y, dirAdjusted.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         weaponTransform.rotation = Quaternion.RotateTowards(weaponTransform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * smooth * 100f);
 

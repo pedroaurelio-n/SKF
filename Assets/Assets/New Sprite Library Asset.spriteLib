@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Head
+    m_Hash: 130111906
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Player
+      m_Hash: 531988307
+      m_Sprite: {fileID: -1436412531, guid: 6f992aaf9df87ce49addda95ad87e5f8, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1436412531, guid: 6f992aaf9df87ce49addda95ad87e5f8, type: 3}
+    - m_Name: Enemy
+      m_Hash: 979269037
+      m_Sprite: {fileID: -489715999, guid: 3a37cdd291c335f4da4569e8a579fb37, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -489715999, guid: 3a37cdd291c335f4da4569e8a579fb37, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 2
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 638848184421747818
+  m_Version: 1

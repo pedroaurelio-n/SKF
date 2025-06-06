@@ -9,6 +9,7 @@ public class GiveDamage : MonoBehaviour
     [SerializeField] private int damage = 1;
     [Tooltip("Usar trigger ao invés de colisão física")]
     [SerializeField] private bool useTrigger = true;
+    [SerializeField] bool destroyOnDamage;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -37,5 +38,8 @@ public class GiveDamage : MonoBehaviour
         Debug.Log($"[GiveDamage] Aplicando {damage} de dano em {other.name}");
 
         health.ModifyHealth(-damage, hitDirection);
+        
+        if (destroyOnDamage)
+            Destroy(gameObject);
     }
 }

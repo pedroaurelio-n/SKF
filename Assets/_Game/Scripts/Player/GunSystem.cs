@@ -9,7 +9,6 @@ public class GunSystem : MonoBehaviour
     [SerializeField] private float distanceMax = 1f;
     [SerializeField] private float baseSmoothMove = 10f;
     [SerializeField] private SpriteRenderer srGun;
-    [SerializeField] private Transform firePoint;
 
     private Vector2 mousePosi;
     private Vector2 stickInput;

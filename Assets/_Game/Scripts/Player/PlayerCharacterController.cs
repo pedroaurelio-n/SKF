@@ -67,13 +67,20 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     private bool _enableCollisions;
 
     Player _player;
+    Enemy _enemy;
     Vector3 _initialScale;
     Vector3 _invertedScale;
 
     void Awake()
     {
         if (!isPlayer)
+        {
+            _enemy = GetComponent<Enemy>();
+            _initialScale = _enemy.Animator.transform.localScale;
+            _invertedScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
             return;
+        }
+        
         _player = GetComponentInParent<Player>();
         _initialScale = _player.Animator.transform.localScale;
         _invertedScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
@@ -201,6 +208,8 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
                 
                 if (isPlayer)
                     _player.Animator.SetTrigger("HasJumped");
+                else
+                    _enemy.Animator.SetTrigger("HasJumped");
             }
 
             bool hasExtraJumps = _currentJumpCount > 0 && _currentJumpCount < maxJumpCount;
@@ -215,6 +224,8 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
                 
                 if (isPlayer)
                     _player.Animator.SetTrigger("HasJumped");
+                else
+                    _enemy.Animator.SetTrigger("HasJumped");
             }
         }
 
@@ -233,6 +244,14 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
                 _player.Animator.transform.localScale = _invertedScale;
             else if (_velocity.x > 0.5f)
                 _player.Animator.transform.localScale = _initialScale;
+        }
+        else
+        {
+            _enemy.Animator.SetBool("IsRunning", Mathf.Abs(_velocity.x) > 0.5f);
+            if (_velocity.x < -0.5f)
+                _enemy.Animator.transform.localScale = _invertedScale;
+            else if (_velocity.x > 0.5f)
+                _enemy.Animator.transform.localScale = _initialScale;
         }
     }
 
@@ -263,6 +282,8 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
         
         if (isPlayer)
             _player.Animator.SetBool("IsFalling", !_isGrounded);
+        else
+            _enemy.Animator.SetBool("IsFalling", !_isGrounded);
     }
 
 

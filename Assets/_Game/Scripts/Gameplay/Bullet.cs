@@ -9,8 +9,11 @@ public class Bullet : MonoBehaviour
 
     public void Setup(Vector2 dir, int dmg = 1)
     {
+        Debug.Log(dir);
         direction = dir.normalized;
         damage = dmg;
+        
+        Destroy(gameObject, 12f);
     }
 
     void Update()
@@ -24,12 +27,8 @@ public class Bullet : MonoBehaviour
         if (other.TryGetComponent<BossHealth>(out BossHealth boss))
         {
             boss.TakeDamage(damage);
+            Destroy(gameObject);
         }
-
-        // Você pode adicionar aqui verificação para outros inimigos, se quiser
-        // if (other.TryGetComponent<EnemyHealth>(out var enemy)) enemy.TakeDamage(damage);
-
-        Destroy(gameObject);
     }
 
     internal void SetDirection(Vector3 right)

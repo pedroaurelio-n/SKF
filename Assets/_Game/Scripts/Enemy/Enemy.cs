@@ -6,17 +6,44 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public event Action OnDeath;
+    
+    [field: SerializeField] public Animator Animator { get; private set; }
+    [field: SerializeField] public PlayerCharacterController CharacterController { get; private set; }
 
     [SerializeField] Health health;
     [SerializeField] SpriteRenderer sprite;
+    [SerializeField] Transform gun;
 
     EnemyAI _enemyAI;
     bool _isFlashing;
+    Vector3 _initialScale;
 
     private void Awake()
     {
         _enemyAI = GetComponent<EnemyAI>();
         Invoke(nameof(ActivateAI), 0.7f);
+        _initialScale = Animator.transform.localScale;
+    }
+
+    private void Update()
+    {
+        if (CharacterController.Motor.Velocity != Vector3.zero)
+        {
+            float aimDirection = transform.position.x - gun.position.x;
+            float movementDirection = CharacterController.Motor.Velocity.x;
+            
+            Animator.SetBool("IsBackwards",
+                Mathf.Approximately(Mathf.Sign(aimDirection), Mathf.Sign(movementDirection)));
+        }
+        
+        if (transform.position.x < gun.position.x)
+        {
+            Animator.transform.localScale = new Vector3(_initialScale.x, _initialScale.y, _initialScale.z);
+        }
+        else if (transform.position.x > gun.position.x)
+        {
+            Animator.transform.localScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
+        }
     }
 
     void ActivateAI()
