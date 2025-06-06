@@ -840,7 +840,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.03, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0707, y: 1.0707, z: 1.0707}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4396586590470934074}
@@ -1347,12 +1347,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleDrops:
+  - prefab: {fileID: 4549114692970258462, guid: 7621208064a2d224aa1ef74bc298ea6f, type: 3}
+    dropChance: 30
   - prefab: {fileID: 6265531087742315398, guid: 4c7f88828041fd4459140bd1593b1172, type: 3}
-    dropChance: 10
+    dropChance: 20
   - prefab: {fileID: 4875075376732780805, guid: 3040d86f4570a194482e0dd929c468cf, type: 3}
-    dropChance: 5
+    dropChance: 15
   - prefab: {fileID: 9063978807712891330, guid: a1d19e27a59f4654bb4f113f688f99a7, type: 3}
-    dropChance: 10
+    dropChance: 15
   dropOffsetY: 0.5
 --- !u!1 &5096512461365664666
 GameObject:
@@ -1865,7 +1867,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.037, y: 0, z: 0.04}
-  m_LocalScale: {x: 0.3899996, y: 0.3899996, z: 0.3899996}
+  m_LocalScale: {x: 0.4761895, y: 0.4761895, z: 0.4761895}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8953963226434476199}

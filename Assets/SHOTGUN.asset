@@ -17,8 +17,9 @@ MonoBehaviour:
   hudSprite: {fileID: 484045707, guid: 9295be21784c636489145d09f67968d0, type: 3}
   bulletPrefab: {fileID: 4117034371073466114, guid: 6e8a834536bba5044bc925da4e2601a1, type: 3}
   fireRate: 1
-  ammo: 15
   damage: 5
+  magazineSize: 25
+  maxReserveAmmo: 30
   fireSound: {fileID: 8300000, guid: eba96c8bc60219a4ab917963a47803f2, type: 3}
   fireVolume: 0.5
   firePitch: 1

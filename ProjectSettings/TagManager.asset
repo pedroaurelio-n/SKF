@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Coin
+  - LoadingText
+  - LoadingSlider
+  - LoadingUI
   layers:
   - Default
   - TransparentFX
