@@ -6,6 +6,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public event Action<int, int> OnStart;
+    public event Action<int, int, Vector3> OnIncrease;
     public event Action<int, int, Vector3> OnDamage;
     public event Action OnDeath;
     public event Action<float> OnInvincibilityStart;
@@ -42,11 +43,11 @@ public class Health : MonoBehaviour
         if (_isInvincible && difference < 0) return;
 
         _currentHealth += difference;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, maxHealth);
         Debug.Log($"[Health] ModifyHealth: diff={difference}, nova vida = {_currentHealth}/{maxHealth}");
 
         if (_currentHealth <= 0)
         {
-            _currentHealth = 0;
             _hasDied = true;
             Debug.Log("[Health] OnDeath");
             OnDeath?.Invoke();
@@ -59,6 +60,8 @@ public class Health : MonoBehaviour
             if (hasInvincibility)
                 _invincibilityRoutine = StartCoroutine(InvincibilityRoutine());
         }
+        else if (difference > 0)
+            OnIncrease?.Invoke(_currentHealth, maxHealth, direction);
     }
 
     IEnumerator InvincibilityRoutine()

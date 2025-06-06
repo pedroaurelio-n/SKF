@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 6107199160144083409}
   - component: {fileID: 5537883868159791839}
   - component: {fileID: 6867894576250292420}
-  - component: {fileID: 6757066239508051528}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Bullet 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ad13dbce1d984408752bfe463ded92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 10
 --- !u!136 &6107199160144083409
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -167,22 +166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageableLayers:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 64
   damage: 1
   useTrigger: 1
---- !u!114 &6757066239508051528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713826142184615861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 589445a806af61249b496dcb092887da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
 --- !u!1 &4493864917097460311
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196584468675004742}
   - component: {fileID: 747966041363147191}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

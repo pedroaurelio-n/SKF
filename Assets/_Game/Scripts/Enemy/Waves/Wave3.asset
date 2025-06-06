@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wave3
   m_EditorClassIdentifier: 
   EnemyGroups:
-  - EnemyPrefab: {fileID: 5401207376021426880, guid: 023c10826489143d5bfb3b9bc0983521, type: 3}
+  - EnemyPrefab: {fileID: 5401207376021426880, guid: 096747d238b6942959b9b873289b3281, type: 3}
     TotalCount: 1
-  - EnemyPrefab: {fileID: 5401207376021426880, guid: 5182a23703d8e40bf8f6339f550d0e38, type: 3}
+  - EnemyPrefab: {fileID: 5401207376021426880, guid: 096747d238b6942959b9b873289b3281, type: 3}
     TotalCount: 1
   TotalSpawnRange: {x: 1, y: 2}

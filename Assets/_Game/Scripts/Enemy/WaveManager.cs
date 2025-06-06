@@ -8,6 +8,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] List<WaveConfig> waveConfigs;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] float delayBetweenWaves;
+    [SerializeField] GameObject spawnParticles;
+    [SerializeField] GameObject deathParticles;
 
     List<Enemy> _activeEnemies = new();
     int _currentWaveIndex;
@@ -80,6 +82,7 @@ public class WaveManager : MonoBehaviour
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
         _activeEnemies.Add(enemy);
+        Instantiate(spawnParticles, enemy.transform.position, Quaternion.identity);
 
         if (enemy != null)
             enemy.OnDeath += () => OnEnemyDeath(enemy);
@@ -88,5 +91,6 @@ public class WaveManager : MonoBehaviour
     void OnEnemyDeath(Enemy enemy)
     {
         _activeEnemies.Remove(enemy);
+        Instantiate(deathParticles, enemy.transform.position, Quaternion.identity);
     }
 }

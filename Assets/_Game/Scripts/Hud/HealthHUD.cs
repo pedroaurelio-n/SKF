@@ -12,6 +12,7 @@ public class HealthHUD : MonoBehaviour
     {
         playerHealth.OnStart += HandleHealthStart;
         playerHealth.OnDamage += HandleHealthChange;
+        playerHealth.OnIncrease += HandleHealthChange;
         playerHealth.OnDeath += HandleDeath;
     }
 
@@ -19,6 +20,7 @@ public class HealthHUD : MonoBehaviour
     {
         playerHealth.OnStart -= HandleHealthStart;
         playerHealth.OnDamage -= HandleHealthChange;
+        playerHealth.OnIncrease -= HandleHealthChange;
         playerHealth.OnDeath -= HandleDeath;
     }
 

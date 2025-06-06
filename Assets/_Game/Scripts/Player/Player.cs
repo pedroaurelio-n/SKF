@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerCharacterController CharacterController { get; private set; }
     [field: SerializeField] public Animator Animator { get; private set; }
     [field: SerializeField] public PlayerInputHandler InputHandler { get; private set; }
+    [field: SerializeField] public Transform Center { get; private set; }
     
     [SerializeField] Health health;
     [SerializeField] GameObject mainSprite;

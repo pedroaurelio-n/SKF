@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af660dbfe1442af408e6258bfe2c3ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 20
+  healAmount: 2
   healEffect: {fileID: 6331275906715107345, guid: 690951f4781b19649bc5c7892414ff37, type: 3}
 --- !u!65 &4221450835534428812
 BoxCollider:
