@@ -14,9 +14,15 @@ public class BossHealth : MonoBehaviour
 
     private bool isDead = false;
 
+    // NOVO: Prefabs para drop aleatório
+    [Header("Item Drop Settings")]
+    [SerializeField] private GameObject[] dropPrefabs; // lista de itens que podem ser dropados
+    [SerializeField] private Transform dropPoint; // ponto onde os itens aparecerão (pode ser a posição do boss)
+
+    private float healthSinceLastDrop = 0f; // controle do dano acumulado
+
     void Start()
     {
-        // Inicializa a vida
         SetMaxHealth((int)maxHealth);
     }
 
@@ -24,11 +30,21 @@ public class BossHealth : MonoBehaviour
     {
         if (isDead) return;
 
+        float oldHealth = currentHealth;
+
         currentHealth -= damage;
         SetHealth((int)currentHealth);
+
+        // NOVO: Verifica se perdeu 30 de vida desde o último drop
+        healthSinceLastDrop += oldHealth - currentHealth;
+
+        while (healthSinceLastDrop >= 30f)
+        {
+            DropRandomItem();
+            healthSinceLastDrop -= 30f;
+        }
     }
 
-    // Atualiza o valor máximo da barra e reseta vida
     public void SetMaxHealth(int max)
     {
         maxHealth = max;
@@ -42,7 +58,6 @@ public class BossHealth : MonoBehaviour
         }
     }
 
-    // Atualiza valor atual da barra e dispara eventos/morte
     public void SetHealth(int health)
     {
         if (isDead) return;
@@ -65,21 +80,32 @@ public class BossHealth : MonoBehaviour
 
         Debug.Log("Boss morreu!");
 
-        // Toca animação de morte
         if (animator == null)
             animator = GetComponent<Animator>();
         if (animator != null)
             animator.SetTrigger("Death");
 
-        // Desativa demais componentes (IA, controle de movimento, etc.)
         foreach (var comp in GetComponents<MonoBehaviour>())
         {
             if (comp != this) comp.enabled = false;
         }
 
-        // Opcional: desativa colisores
         var collider = GetComponent<Collider2D>();
         if (collider != null)
             collider.enabled = false;
+    }
+
+    // NOVO: Função de drop
+    private void DropRandomItem()
+    {
+        if (dropPrefabs == null || dropPrefabs.Length == 0) return;
+
+        int index = UnityEngine.Random.Range(0, dropPrefabs.Length);
+        GameObject itemToDrop = dropPrefabs[index];
+
+        Vector3 spawnPosition = dropPoint != null ? dropPoint.position : transform.position;
+
+        Instantiate(itemToDrop, spawnPosition, Quaternion.identity);
+        Debug.Log("Item dropado: " + itemToDrop.name);
     }
 }

@@ -11,7 +11,7 @@ public class GunPickup : MonoBehaviour
             GunManager manager = other.GetComponentInChildren<GunManager>();
             if (manager != null)
             {
-                manager.EquipGun(weaponData);
+                manager.CollectGun(weaponData); // <- Usa o método correto
                 Destroy(gameObject);
             }
         }
