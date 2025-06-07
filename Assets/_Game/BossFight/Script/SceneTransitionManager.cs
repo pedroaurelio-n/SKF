@@ -4,29 +4,30 @@ using UnityEngine;
 
 public class SceneTransitionManager : MonoBehaviour
 {
-    [Header("Referências")]
+    [Header("Referï¿½ncias")]
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private BossController bossController;
     [SerializeField] private Transform player;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Collider[] sceneColliders;
-    [SerializeField] private GameObject waveHUD;        // O painel UI que mostra “Wave X/Y”
+    [SerializeField] private GameObject waveHUD;        // O painel UI que mostra ï¿½Wave X/Yï¿½
     [SerializeField] private float cameraShakeDuration = 1f;
     [SerializeField] private float cameraShakeMagnitude = 0.1f;
     [SerializeField] private float dropDelay = 0.5f;
     [SerializeField] private float fightStartYOffset = -5f;
+    [SerializeField] private GameObject[] arrowObjects;
 
     private bool transitioning = false;
     private Vector3 camOriginalPos;
 
     void OnEnable()
     {
-        EventManager.AllWavesDefeated += OnAllWavesDefeated;
+        EventManager.OnAllWavesDefeated += OnAllWavesDefeated;
     }
 
     void OnDisable()
     {
-        EventManager.AllWavesDefeated -= OnAllWavesDefeated;
+        EventManager.OnAllWavesDefeated -= OnAllWavesDefeated;
     }
 
     private void OnAllWavesDefeated()
@@ -38,6 +39,11 @@ public class SceneTransitionManager : MonoBehaviour
     private IEnumerator DoTransition()
     {
         transitioning = true;
+
+        foreach (GameObject obj in arrowObjects)
+        {
+            obj.SetActive(true);
+        }
 
         // 1) Shake
         camOriginalPos = mainCamera.transform.position;
@@ -55,7 +61,7 @@ public class SceneTransitionManager : MonoBehaviour
         // 2) Espera
         yield return new WaitForSeconds(dropDelay);
 
-        // 3) Desmonta cenário
+        // 3) Desmonta cenï¿½rio
         foreach (var col in sceneColliders)
         {
             col.enabled = false;

@@ -9,6 +9,7 @@ public class BossHealth : MonoBehaviour
 
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Animator animator;
+    [SerializeField] GameEnd gameEnd;
 
     public event Action<float, float> OnHealthChanged;
 
@@ -77,8 +78,9 @@ public class BossHealth : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-
+        
         Debug.Log("Boss morreu!");
+        Invoke(nameof(EndGame), 3f);
 
         if (animator == null)
             animator = GetComponent<Animator>();
@@ -107,5 +109,12 @@ public class BossHealth : MonoBehaviour
 
         Instantiate(itemToDrop, spawnPosition, Quaternion.identity);
         Debug.Log("Item dropado: " + itemToDrop.name);
+    }
+
+    void EndGame()
+    {
+        gameEnd.transform.parent.gameObject.SetActive(true);
+        gameEnd.gameObject.SetActive(true);
+        gameEnd.TriggerGameWin();
     }
 }

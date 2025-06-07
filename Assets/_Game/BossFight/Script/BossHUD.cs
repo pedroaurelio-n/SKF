@@ -14,13 +14,13 @@ public class BossHUD : MonoBehaviour
     // Se preferir eventos:
     void OnEnable()
     {
-        EventManager.BossFightStarted += Show;
-        EventManager.BossDefeated += Hide;
+        EventManager.OnBossFightStarted += Show;
+        EventManager.OnBossDefeated += Hide;
     }
     void OnDisable()
     {
-        EventManager.BossFightStarted -= Show;
-        EventManager.BossDefeated -= Hide;
+        EventManager.OnBossFightStarted -= Show;
+        EventManager.OnBossDefeated -= Hide;
     }
 }
 

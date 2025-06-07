@@ -3,20 +3,20 @@ using TMPro;
 
 public class WaveHUD : MonoBehaviour
 {
-    [Header("Referências UI")]
-    [SerializeField] private GameObject wavePanel;  // Painel que contém tudo de waves
-    [SerializeField] private TMP_Text waveText;     // Texto que mostra “1/3”, “2/3”, etc.
+    [Header("Referï¿½ncias UI")]
+    [SerializeField] private GameObject wavePanel;  // Painel que contï¿½m tudo de waves
+    [SerializeField] private TMP_Text waveText;     // Texto que mostra ï¿½1/3ï¿½, ï¿½2/3ï¿½, etc.
 
     void OnEnable()
     {
-        EventManager.WaveStarted += OnWaveStarted;
-        EventManager.AllWavesDefeated += OnAllWavesDefeated;
+        EventManager.OnWaveStarted += OnWaveStarted;
+        EventManager.OnAllWavesDefeated += OnAllWavesDefeated;
     }
 
     void OnDisable()
     {
-        EventManager.WaveStarted -= OnWaveStarted;
-        EventManager.AllWavesDefeated -= OnAllWavesDefeated;
+        EventManager.OnWaveStarted -= OnWaveStarted;
+        EventManager.OnAllWavesDefeated -= OnAllWavesDefeated;
     }
 
     private void OnWaveStarted(int currentWave, int totalWaves)

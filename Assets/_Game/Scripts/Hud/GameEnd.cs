@@ -25,6 +25,7 @@ public class GameEnd : MonoBehaviour
     public void TriggerGameWin ()
     {
         gameWinContainer.SetActive(true);
+        Player.Instance.IsIntangible = true;
     }
 
     public void PlayAgain ()
