@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyGroups:
   - EnemyPrefab: {fileID: 5401207376021426880, guid: 1ef5ce993e8642245bd9ca3866acb9cf, type: 3}
-    TotalCount: 3
+    TotalCount: 5
   TotalSpawnRange: {x: 1, y: 2}

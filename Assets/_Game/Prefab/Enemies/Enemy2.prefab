@@ -1347,8 +1347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleDrops:
-  - prefab: {fileID: 4549114692970258462, guid: 7621208064a2d224aa1ef74bc298ea6f, type: 3}
-    dropChance: 30
   - prefab: {fileID: 6265531087742315398, guid: 4c7f88828041fd4459140bd1593b1172, type: 3}
     dropChance: 20
   - prefab: {fileID: 4875075376732780805, guid: 3040d86f4570a194482e0dd929c468cf, type: 3}
