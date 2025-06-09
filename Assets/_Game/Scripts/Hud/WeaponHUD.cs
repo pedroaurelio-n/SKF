@@ -20,11 +20,13 @@ public class WeaponHUD : MonoBehaviour
 
     private readonly Vector3 bigScale = Vector3.one;
     private readonly Vector3 smallScale = Vector3.one;
+    
+    PlayerControls playerControls;
 
-    IEnumerator Start()
+    void OnEnable ()
     {
-        yield return new WaitUntil(() => gunManager.CurrentGun != null); // espera a arma ser equipada
-        AddGunToHUD(gunManager.CurrentGun.data);
+        playerControls = new PlayerControls();
+        playerControls.Enable();
     }
 
     void Update()
@@ -37,8 +39,8 @@ public class WeaponHUD : MonoBehaviour
 
         if (ownedGuns.Count > 1)
         {
-            if (Input.GetKeyDown(KeyCode.Q)) SwitchWeapon(-1);
-            if (Input.GetKeyDown(KeyCode.E)) SwitchWeapon(1);
+            if (playerControls.Gameplay.ChangeWeapon.triggered && playerControls.Gameplay.ChangeWeapon.ReadValue<float>() < 0) SwitchWeapon(-1);
+            else if (playerControls.Gameplay.ChangeWeapon.triggered && playerControls.Gameplay.ChangeWeapon.ReadValue<float>() > 0) SwitchWeapon(1);
         }
 
         UpdateHUD();
@@ -82,15 +84,15 @@ public class WeaponHUD : MonoBehaviour
 
         GunData currentGun = ownedGuns[currentIndex];
         GunData leftGun = ownedGuns.Count > 1 ? ownedGuns[(currentIndex - 1 + ownedGuns.Count) % ownedGuns.Count] : null;
-        GunData rightGun = ownedGuns.Count > 2 ? ownedGuns[(currentIndex + 1) % ownedGuns.Count] : null;
+        GunData rightGun = ownedGuns.Count > 1 ? ownedGuns[(currentIndex + 1) % ownedGuns.Count] : null;
 
         primaryIcon.sprite = currentGun?.hudSprite;
         secondaryLeft.sprite = leftGun?.hudSprite;
         secondaryRight.sprite = rightGun?.hudSprite;
 
         primaryIcon.transform.localScale = bigScale;
-        secondaryLeft.transform.localScale = currentGun == gunManager.smgData ? bigScale : smallScale;
-        secondaryRight.transform.localScale = currentGun == gunManager.shotgunData ? bigScale : smallScale;
+        secondaryLeft.transform.localScale = smallScale;
+        secondaryRight.transform.localScale = smallScale;
 
         if (gunManager.CurrentGun != null)
         {

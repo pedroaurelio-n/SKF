@@ -33,7 +33,7 @@ public class BossController : MonoBehaviour
         // Ativa e configura HUD de vida
         bossHealthBar.gameObject.SetActive(true);
         bossHealthBar.SetMaxHealth(maxHealth);
-        gameEnd.gameObject.SetActive(true);
+        gameEnd.transform.parent.gameObject.SetActive(true);
         staticCamera.gameObject.SetActive(true);
 
         // Reinicia valores internos

@@ -12467,7 +12467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &766069460
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26312,6 +26312,11 @@ MonoBehaviour:
   healthSlider: {fileID: 1946829763}
   animator: {fileID: 1525546727}
   gameEnd: {fileID: 1480508097}
+  damageColliders:
+  - {fileID: 995431637}
+  - {fileID: 162323355}
+  - {fileID: 120530947}
+  - {fileID: 1322977710}
   dropPrefabs:
   - {fileID: 6265531087742315398, guid: 4c7f88828041fd4459140bd1593b1172, type: 3}
   - {fileID: 9063978807712891330, guid: a1d19e27a59f4654bb4f113f688f99a7, type: 3}

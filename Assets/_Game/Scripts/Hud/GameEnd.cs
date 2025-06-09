@@ -8,13 +8,11 @@ public class GameEnd : MonoBehaviour
     void OnEnable ()
     {
         EventManager.OnPlayerDeath += TriggerGameOver;
-        EventManager.OnAllWavesDefeated += TriggerGameWin;
     }
 
     void OnDisable ()
     {
         EventManager.OnPlayerDeath -= TriggerGameOver;
-        EventManager.OnAllWavesDefeated -= TriggerGameWin;
     }
 
     public void TriggerGameOver ()

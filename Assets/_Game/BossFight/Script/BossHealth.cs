@@ -10,15 +10,16 @@ public class BossHealth : MonoBehaviour
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Animator animator;
     [SerializeField] GameEnd gameEnd;
+    [SerializeField] Collider[] damageColliders;
 
     public event Action<float, float> OnHealthChanged;
 
     private bool isDead = false;
 
-    // NOVO: Prefabs para drop aleatório
+    // NOVO: Prefabs para drop aleatï¿½rio
     [Header("Item Drop Settings")]
     [SerializeField] private GameObject[] dropPrefabs; // lista de itens que podem ser dropados
-    [SerializeField] private Transform dropPoint; // ponto onde os itens aparecerão (pode ser a posição do boss)
+    [SerializeField] private Transform dropPoint; // ponto onde os itens aparecerï¿½o (pode ser a posiï¿½ï¿½o do boss)
 
     private float healthSinceLastDrop = 0f; // controle do dano acumulado
 
@@ -36,7 +37,7 @@ public class BossHealth : MonoBehaviour
         currentHealth -= damage;
         SetHealth((int)currentHealth);
 
-        // NOVO: Verifica se perdeu 30 de vida desde o último drop
+        // NOVO: Verifica se perdeu 30 de vida desde o ï¿½ltimo drop
         healthSinceLastDrop += oldHealth - currentHealth;
 
         while (healthSinceLastDrop >= 30f)
@@ -79,6 +80,9 @@ public class BossHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
         
+        foreach (var damageCollider in damageColliders)
+            damageCollider.enabled = false;
+        
         Debug.Log("Boss morreu!");
         Invoke(nameof(EndGame), 3f);
 
@@ -97,7 +101,7 @@ public class BossHealth : MonoBehaviour
             collider.enabled = false;
     }
 
-    // NOVO: Função de drop
+    // NOVO: Funï¿½ï¿½o de drop
     private void DropRandomItem()
     {
         if (dropPrefabs == null || dropPrefabs.Length == 0) return;
